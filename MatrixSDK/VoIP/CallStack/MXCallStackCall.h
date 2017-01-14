@@ -14,7 +14,11 @@
  limitations under the License.
  */
 
+#if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
+#elif TARGET_OS_MAC
+#import <Cocoa/Cocoa.h>
+#endif
 #import <AVFoundation/AVCaptureDevice.h>
 
 @protocol MXCallStackCallDelegate;
@@ -122,6 +126,7 @@
  */
 @property (nonatomic) id<MXCallStackCallDelegate> delegate;
 
+#if TARGET_OS_IPHONE
 /**
  The UIView that receives frames from the user's camera.
  */
@@ -137,7 +142,7 @@
  on the other peer device.
  */
 @property (nonatomic) UIDeviceOrientation selfOrientation;
-
+#endif
 /**
  Mute state of the outbound audio.
  */

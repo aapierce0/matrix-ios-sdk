@@ -188,12 +188,180 @@
 		32FCAB4D19E578860049C555 /* MXRestClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 32FCAB4C19E578860049C555 /* MXRestClientTests.m */; };
 		32FE41361D0AB7070060835E /* MXEnumConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 32FE41341D0AB7070060835E /* MXEnumConstants.h */; };
 		32FE41371D0AB7070060835E /* MXEnumConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 32FE41351D0AB7070060835E /* MXEnumConstants.m */; };
+		5049044AED8A6E60EBD3DFBE /* libPods-MatrixSDK_macOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D7E279EF4E04931407B4FC19 /* libPods-MatrixSDK_macOS.a */; };
 		71DE22E01BC7C51200284153 /* MXReceiptData.m in Sources */ = {isa = PBXBuildFile; fileRef = 71DE22DC1BC7C51200284153 /* MXReceiptData.m */; };
 		71DE22E11BC7C51200284153 /* MXReceiptData.h in Headers */ = {isa = PBXBuildFile; fileRef = 71DE22DD1BC7C51200284153 /* MXReceiptData.h */; };
 		A23A8594855481FEFA0E9A22 /* libPods-MatrixSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1674C6FF8BBF074E7F76059 /* libPods-MatrixSDK.a */; };
-		C6CC8E3E1E2A8C38006C231F /* MatrixSDK_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6CC8E351E2A8C37006C231F /* MatrixSDK_macOS.framework */; };
+		B829EA58F957D7FE331A790A /* libPods-MatrixSDK_macOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 089A0C9F96113C661A696AD9 /* libPods-MatrixSDK_macOSTests.a */; };
+		C6CC8E3E1E2A8C38006C231F /* MatrixSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6CC8E351E2A8C37006C231F /* MatrixSDK.framework */; };
 		C6CC8E431E2A8C38006C231F /* MatrixSDK_macOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C6CC8E421E2A8C38006C231F /* MatrixSDK_macOSTests.m */; };
-		C6CC8E451E2A8C38006C231F /* MatrixSDK_macOS.h in Headers */ = {isa = PBXBuildFile; fileRef = C6CC8E371E2A8C37006C231F /* MatrixSDK_macOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C6CC8E571E2A9319006C231F /* MatrixSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 32C6F93219DD814400EA4E9C /* MatrixSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C6CC8E581E2A9363006C231F /* MXRestClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 320DFDD419DD99B60068622A /* MXRestClient.h */; };
+		C6CC8E591E2A9553006C231F /* MXRestClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 320DFDD519DD99B60068622A /* MXRestClient.m */; };
+		C6CC8E5A1E2A9553006C231F /* MXSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 320DFDD019DD99B60068622A /* MXSession.h */; };
+		C6CC8E5B1E2A9553006C231F /* MXSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 320DFDD119DD99B60068622A /* MXSession.m */; };
+		C6CC8E5C1E2A9553006C231F /* MXError.h in Headers */ = {isa = PBXBuildFile; fileRef = 320DFDD219DD99B60068622A /* MXError.h */; };
+		C6CC8E5D1E2A9553006C231F /* MXError.m in Sources */ = {isa = PBXBuildFile; fileRef = 320DFDD319DD99B60068622A /* MXError.m */; };
+		C6CC8E5E1E2A9553006C231F /* MXEnumConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 32FE41341D0AB7070060835E /* MXEnumConstants.h */; };
+		C6CC8E5F1E2A9553006C231F /* MXEnumConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 32FE41351D0AB7070060835E /* MXEnumConstants.m */; };
+		C6CC8E601E2A9553006C231F /* MXSDKOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C34CBA1C18C93700C36F09 /* MXSDKOptions.m */; };
+		C6CC8E611E2A9676006C231F /* MXTools.h in Headers */ = {isa = PBXBuildFile; fileRef = 329FB1771A0A74B100A5E88E /* MXTools.h */; };
+		C6CC8E651E2A9CD8006C231F /* NSObject+sortedKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = 32A151591DB525DA00400192 /* NSObject+sortedKeys.h */; };
+		C6CC8E661E2A9CDB006C231F /* NSObject+sortedKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 32A1515A1DB525DA00400192 /* NSObject+sortedKeys.m */; };
+		C6CC8E671E2A9D22006C231F /* MXStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 32114A841A262CE000FF2EC4 /* MXStore.h */; };
+		C6CC8E681E2A9D27006C231F /* MXNoStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 32114A8D1A262ECB00FF2EC4 /* MXNoStore.h */; };
+		C6CC8E691E2A9D2A006C231F /* MXNoStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 32114A8E1A262ECB00FF2EC4 /* MXNoStore.m */; };
+		C6CC8E6A1E2A9D2E006C231F /* MXMemoryStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 32D7767B1A27860600FC4AA2 /* MXMemoryStore.h */; };
+		C6CC8E6B1E2A9D30006C231F /* MXMemoryRoomStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 32D7767F1A27877300FC4AA2 /* MXMemoryRoomStore.h */; };
+		C6CC8E6C1E2A9D34006C231F /* MXMemoryStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 32D7767C1A27860600FC4AA2 /* MXMemoryStore.m */; };
+		C6CC8E6D1E2A9D39006C231F /* MXMemoryRoomStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 32D776801A27877300FC4AA2 /* MXMemoryRoomStore.m */; };
+		C6CC8E6E1E2A9D3C006C231F /* MXReceiptData.h in Headers */ = {isa = PBXBuildFile; fileRef = 71DE22DD1BC7C51200284153 /* MXReceiptData.h */; };
+		C6CC8E6F1E2A9D3E006C231F /* MXReceiptData.m in Sources */ = {isa = PBXBuildFile; fileRef = 71DE22DC1BC7C51200284153 /* MXReceiptData.m */; };
+		C6CC8E701E2A9D44006C231F /* MXFileStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 3233606D1A403A0D0071A488 /* MXFileStore.h */; };
+		C6CC8E711E2A9D44006C231F /* MXFileStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 3233606E1A403A0D0071A488 /* MXFileStore.m */; };
+		C6CC8E721E2A9D44006C231F /* MXFileRoomStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 3291D4D21A68FFEB00C3BA41 /* MXFileRoomStore.h */; };
+		C6CC8E731E2A9D44006C231F /* MXFileRoomStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 3291D4D31A68FFEB00C3BA41 /* MXFileRoomStore.m */; };
+		C6CC8E741E2A9D44006C231F /* MXFileStoreMetaData.h in Headers */ = {isa = PBXBuildFile; fileRef = 32CE6FB61A409B1F00317F1E /* MXFileStoreMetaData.h */; };
+		C6CC8E751E2A9D44006C231F /* MXFileStoreMetaData.m in Sources */ = {isa = PBXBuildFile; fileRef = 32CE6FB71A409B1F00317F1E /* MXFileStoreMetaData.m */; };
+		C6CC8E761E2A9D4E006C231F /* MXCoreDataStore.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 32169A9F1BD4D0E30077868B /* MXCoreDataStore.xcdatamodeld */; };
+		C6CC8E771E2A9D4F006C231F /* MXCoreDataStore.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 32169A9F1BD4D0E30077868B /* MXCoreDataStore.xcdatamodeld */; };
+		C6CC8E781E2A9D53006C231F /* MXCoreDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 323B2ACB1BCD3EF000B11F34 /* MXCoreDataStore.h */; };
+		C6CC8E791E2A9D53006C231F /* MXCoreDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 323B2ACC1BCD3EF000B11F34 /* MXCoreDataStore.m */; };
+		C6CC8E7A1E2A9D53006C231F /* MXCoreDataRoom+CoreDataProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 323B2AF21BCE8AC800B11F34 /* MXCoreDataRoom+CoreDataProperties.h */; };
+		C6CC8E7B1E2A9D53006C231F /* MXCoreDataRoom+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 323B2AF31BCE8AC800B11F34 /* MXCoreDataRoom+CoreDataProperties.m */; };
+		C6CC8E7C1E2A9D53006C231F /* MXCoreDataRoom.h in Headers */ = {isa = PBXBuildFile; fileRef = 323B2AF41BCE8AC800B11F34 /* MXCoreDataRoom.h */; };
+		C6CC8E7D1E2A9D53006C231F /* MXCoreDataRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = 323B2AF51BCE8AC800B11F34 /* MXCoreDataRoom.m */; };
+		C6CC8E7E1E2A9D53006C231F /* MXCoreDataRoomState.h in Headers */ = {isa = PBXBuildFile; fileRef = 3264E29E1BDF8D1500F89A86 /* MXCoreDataRoomState.h */; };
+		C6CC8E7F1E2A9D53006C231F /* MXCoreDataRoomState.m in Sources */ = {isa = PBXBuildFile; fileRef = 3264E29F1BDF8D1500F89A86 /* MXCoreDataRoomState.m */; };
+		C6CC8E801E2A9D53006C231F /* MXCoreDataRoomState+CoreDataProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 3264E2A01BDF8D1500F89A86 /* MXCoreDataRoomState+CoreDataProperties.h */; };
+		C6CC8E811E2A9D53006C231F /* MXCoreDataRoomState+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 3264E2A11BDF8D1500F89A86 /* MXCoreDataRoomState+CoreDataProperties.m */; };
+		C6CC8E821E2A9D53006C231F /* MXCoreDataAccount+CoreDataProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 323B2ADB1BCD4CB600B11F34 /* MXCoreDataAccount+CoreDataProperties.h */; };
+		C6CC8E831E2A9D53006C231F /* MXCoreDataAccount+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 323B2ADC1BCD4CB600B11F34 /* MXCoreDataAccount+CoreDataProperties.m */; };
+		C6CC8E841E2A9D53006C231F /* MXCoreDataAccount.h in Headers */ = {isa = PBXBuildFile; fileRef = 323B2ADD1BCD4CB600B11F34 /* MXCoreDataAccount.h */; };
+		C6CC8E851E2A9D53006C231F /* MXCoreDataAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 323B2ADE1BCD4CB600B11F34 /* MXCoreDataAccount.m */; };
+		C6CC8E861E2A9D53006C231F /* MXCoreDataEvent+CoreDataProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 323B2AFA1BCE9B6700B11F34 /* MXCoreDataEvent+CoreDataProperties.h */; };
+		C6CC8E871E2A9D53006C231F /* MXCoreDataEvent+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 323B2AFB1BCE9B6700B11F34 /* MXCoreDataEvent+CoreDataProperties.m */; };
+		C6CC8E881E2A9D53006C231F /* MXCoreDataEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 323B2AFC1BCE9B6700B11F34 /* MXCoreDataEvent.h */; };
+		C6CC8E891E2A9D53006C231F /* MXCoreDataEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 323B2AFD1BCE9B6700B11F34 /* MXCoreDataEvent.m */; };
+		C6CC8E8A1E2A9D5C006C231F /* MXRoom.h in Headers */ = {isa = PBXBuildFile; fileRef = 320DFDCA19DD99B60068622A /* MXRoom.h */; };
+		C6CC8E8B1E2A9D5C006C231F /* MXRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = 320DFDCB19DD99B60068622A /* MXRoom.m */; };
+		C6CC8E8C1E2A9D5C006C231F /* MXPeekingRoom.h in Headers */ = {isa = PBXBuildFile; fileRef = 32E226A41D06AC9F00E6CA54 /* MXPeekingRoom.h */; };
+		C6CC8E8D1E2A9D5C006C231F /* MXPeekingRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = 32E226A51D06AC9F00E6CA54 /* MXPeekingRoom.m */; };
+		C6CC8E8E1E2A9D5C006C231F /* MXRoomState.h in Headers */ = {isa = PBXBuildFile; fileRef = 3265CB361A14C43E00E24B2F /* MXRoomState.h */; };
+		C6CC8E8F1E2A9D5C006C231F /* MXRoomState.m in Sources */ = {isa = PBXBuildFile; fileRef = 3265CB371A14C43E00E24B2F /* MXRoomState.m */; };
+		C6CC8E901E2A9D5C006C231F /* MXRoomAccountData.h in Headers */ = {isa = PBXBuildFile; fileRef = 32481A821C03572900782AD3 /* MXRoomAccountData.h */; };
+		C6CC8E911E2A9D5C006C231F /* MXRoomAccountData.m in Sources */ = {isa = PBXBuildFile; fileRef = 32481A831C03572900782AD3 /* MXRoomAccountData.m */; };
+		C6CC8E921E2A9D5C006C231F /* MXEventListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 3220093619EFA4C9008DE41D /* MXEventListener.h */; };
+		C6CC8E931E2A9D5C006C231F /* MXEventListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 3220093719EFA4C9008DE41D /* MXEventListener.m */; };
+		C6CC8E941E2A9D5C006C231F /* MXEventTimeline.h in Headers */ = {isa = PBXBuildFile; fileRef = 326056831C76FDF1009D44AD /* MXEventTimeline.h */; };
+		C6CC8E951E2A9D5C006C231F /* MXEventTimeline.m in Sources */ = {isa = PBXBuildFile; fileRef = 326056841C76FDF1009D44AD /* MXEventTimeline.m */; };
+		C6CC8E961E2A9D5C006C231F /* MXInvite3PID.h in Headers */ = {isa = PBXBuildFile; fileRef = F082946B1DB66C3D00CEAB63 /* MXInvite3PID.h */; };
+		C6CC8E971E2A9D5C006C231F /* MXInvite3PID.m in Sources */ = {isa = PBXBuildFile; fileRef = F082946C1DB66C3D00CEAB63 /* MXInvite3PID.m */; };
+		C6CC8E981E2A9D5C006C231F /* MXSessionEventListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 3220094319EFBF30008DE41D /* MXSessionEventListener.h */; };
+		C6CC8E991E2A9D5C006C231F /* MXSessionEventListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 3220094419EFBF30008DE41D /* MXSessionEventListener.m */; };
+		C6CC8E9A1E2A9D5C006C231F /* MXRoomEventFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = F0AC734C1DA4F53B0011DAEE /* MXRoomEventFilter.h */; };
+		C6CC8E9B1E2A9D5C006C231F /* MXRoomEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = F0AC734D1DA4F53B0011DAEE /* MXRoomEventFilter.m */; };
+		C6CC8E9C1E2A9D5C006C231F /* MXRoomMember.h in Headers */ = {isa = PBXBuildFile; fileRef = 329FB1731A0A3A1600A5E88E /* MXRoomMember.h */; };
+		C6CC8E9D1E2A9D5C006C231F /* MXRoomMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 329FB1741A0A3A1600A5E88E /* MXRoomMember.m */; };
+		C6CC8E9E1E2A9D5C006C231F /* MXRoomThirdPartyInvite.h in Headers */ = {isa = PBXBuildFile; fileRef = 327F8DB01C6112BA00581CA3 /* MXRoomThirdPartyInvite.h */; };
+		C6CC8E9F1E2A9D5C006C231F /* MXRoomThirdPartyInvite.m in Sources */ = {isa = PBXBuildFile; fileRef = 327F8DB11C6112BA00581CA3 /* MXRoomThirdPartyInvite.m */; };
+		C6CC8EA01E2A9D5C006C231F /* MXAccountData.h in Headers */ = {isa = PBXBuildFile; fileRef = 3264DB8F1CEC528D00B99881 /* MXAccountData.h */; };
+		C6CC8EA11E2A9D5C006C231F /* MXAccountData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3264DB901CEC528D00B99881 /* MXAccountData.m */; };
+		C6CC8EA21E2A9D5C006C231F /* MXUser.h in Headers */ = {isa = PBXBuildFile; fileRef = 329FB17D1A0B665800A5E88E /* MXUser.h */; };
+		C6CC8EA31E2A9D5C006C231F /* MXUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 329FB17E1A0B665800A5E88E /* MXUser.m */; };
+		C6CC8EA41E2A9D5C006C231F /* MXMyUser.h in Headers */ = {isa = PBXBuildFile; fileRef = 327137251A24D50A00DB6757 /* MXMyUser.h */; };
+		C6CC8EA51E2A9D5C006C231F /* MXMyUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 327137261A24D50A00DB6757 /* MXMyUser.m */; };
+		C6CC8EA61E2A9D60006C231F /* MXJSONModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 3281E8B319E42DFE00976E1A /* MXJSONModel.h */; };
+		C6CC8EA71E2A9D60006C231F /* MXJSONModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3281E8B419E42DFE00976E1A /* MXJSONModel.m */; };
+		C6CC8EA81E2A9D60006C231F /* MXJSONModels.h in Headers */ = {isa = PBXBuildFile; fileRef = 3281E8B519E42DFE00976E1A /* MXJSONModels.h */; };
+		C6CC8EA91E2A9D60006C231F /* MXJSONModels.m in Sources */ = {isa = PBXBuildFile; fileRef = 3281E8B619E42DFE00976E1A /* MXJSONModels.m */; };
+		C6CC8EAA1E2A9D60006C231F /* MXEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 323E0C591A306D7A00A31D73 /* MXEvent.h */; };
+		C6CC8EAB1E2A9D60006C231F /* MXEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 323E0C5A1A306D7A00A31D73 /* MXEvent.m */; };
+		C6CC8EAC1E2A9D60006C231F /* MXRoomPowerLevels.h in Headers */ = {isa = PBXBuildFile; fileRef = 323E0C551A2F6E7D00A31D73 /* MXRoomPowerLevels.h */; };
+		C6CC8EAD1E2A9D60006C231F /* MXRoomPowerLevels.m in Sources */ = {isa = PBXBuildFile; fileRef = 323E0C561A2F6E7D00A31D73 /* MXRoomPowerLevels.m */; };
+		C6CC8EAE1E2A9D68006C231F /* MXEventsEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 320BBF3B1D6C7D9D0079890E /* MXEventsEnumerator.h */; };
+		C6CC8EAF1E2A9D68006C231F /* MXEventsEnumeratorOnArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 320BBF3F1D6C81550079890E /* MXEventsEnumeratorOnArray.h */; };
+		C6CC8EB01E2A9D68006C231F /* MXEventsEnumeratorOnArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 320BBF401D6C81550079890E /* MXEventsEnumeratorOnArray.m */; };
+		C6CC8EB11E2A9D68006C231F /* MXEventsByTypesEnumeratorOnArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 320BBF3D1D6C81550079890E /* MXEventsByTypesEnumeratorOnArray.m */; };
+		C6CC8EB21E2A9D68006C231F /* MXEventsByTypesEnumeratorOnArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 320BBF3E1D6C81550079890E /* MXEventsByTypesEnumeratorOnArray.h */; };
+		C6CC8EB31E2A9D6D006C231F /* MXCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = 322A51B41D9AB15900C8536D /* MXCrypto.h */; };
+		C6CC8EB41E2A9D6D006C231F /* MXCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 322A51B51D9AB15900C8536D /* MXCrypto.m */; };
+		C6CC8EB51E2A9D6D006C231F /* MXCrypto_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 325D1C251DFECE0D0070B8BF /* MXCrypto_Private.h */; };
+		C6CC8EB61E2A9D6D006C231F /* MXOlmDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 322A51C51D9BBD3C00C8536D /* MXOlmDevice.h */; };
+		C6CC8EB71E2A9D6D006C231F /* MXOlmDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 322A51C61D9BBD3C00C8536D /* MXOlmDevice.m */; };
+		C6CC8EB81E2A9D72006C231F /* MXCryptoConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 3256E37F1DCB91EB003C9718 /* MXCryptoConstants.h */; };
+		C6CC8EB91E2A9D72006C231F /* MXCryptoConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 3256E3801DCB91EB003C9718 /* MXCryptoConstants.m */; };
+		C6CC8EBA1E2A9D72006C231F /* MXDeviceInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 32A151401DAF7C0C00400192 /* MXDeviceInfo.h */; };
+		C6CC8EBB1E2A9D72006C231F /* MXDeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 32A151411DAF7C0C00400192 /* MXDeviceInfo.m */; };
+		C6CC8EBC1E2A9D72006C231F /* MXEncryptedAttachments.h in Headers */ = {isa = PBXBuildFile; fileRef = F03EF5061DF071D5009DF592 /* MXEncryptedAttachments.h */; };
+		C6CC8EBD1E2A9D72006C231F /* MXEncryptedAttachments.m in Sources */ = {isa = PBXBuildFile; fileRef = F03EF5071DF071D5009DF592 /* MXEncryptedAttachments.m */; };
+		C6CC8EBE1E2A9D72006C231F /* MXKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 32A151421DAF7C0C00400192 /* MXKey.h */; };
+		C6CC8EBF1E2A9D72006C231F /* MXKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 32A151431DAF7C0C00400192 /* MXKey.m */; };
+		C6CC8EC01E2A9D72006C231F /* MXOlmInboundGroupSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 32A1513C1DAF768D00400192 /* MXOlmInboundGroupSession.h */; };
+		C6CC8EC11E2A9D72006C231F /* MXOlmInboundGroupSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 32A1513D1DAF768D00400192 /* MXOlmInboundGroupSession.m */; };
+		C6CC8EC21E2A9D72006C231F /* MXOlmSessionResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 32A1514C1DAF897600400192 /* MXOlmSessionResult.h */; };
+		C6CC8EC31E2A9D72006C231F /* MXOlmSessionResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 32A1514D1DAF897600400192 /* MXOlmSessionResult.m */; };
+		C6CC8EC41E2A9D72006C231F /* MXQueuedEncryption.h in Headers */ = {isa = PBXBuildFile; fileRef = 32A151501DAF8A7200400192 /* MXQueuedEncryption.h */; };
+		C6CC8EC51E2A9D72006C231F /* MXQueuedEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 32A151511DAF8A7200400192 /* MXQueuedEncryption.m */; };
+		C6CC8EC61E2A9D72006C231F /* MXUsersDevicesMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 32A151441DAF7C0C00400192 /* MXUsersDevicesMap.h */; };
+		C6CC8EC71E2A9D72006C231F /* MXUsersDevicesMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 32A151451DAF7C0C00400192 /* MXUsersDevicesMap.m */; };
+		C6CC8EC81E2A9D76006C231F /* MXCryptoStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 3284A59D1DB7C00600A09972 /* MXCryptoStore.h */; };
+		C6CC8EC91E2A9D7B006C231F /* MXRealmCryptoStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 3259CD511DF860C300186944 /* MXRealmCryptoStore.h */; };
+		C6CC8ECA1E2A9D7B006C231F /* MXRealmCryptoStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 3259CD521DF860C300186944 /* MXRealmCryptoStore.m */; };
+		C6CC8ECB1E2A9D7F006C231F /* MXFileCryptoStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 3284A5A81DB7CFA800A09972 /* MXFileCryptoStore.h */; };
+		C6CC8ECC1E2A9D7F006C231F /* MXFileCryptoStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 3284A5A91DB7CFA800A09972 /* MXFileCryptoStore.m */; };
+		C6CC8ECD1E2A9D7F006C231F /* MXFileCryptoStoreMetaData.h in Headers */ = {isa = PBXBuildFile; fileRef = 3284A5AA1DB7CFA800A09972 /* MXFileCryptoStoreMetaData.h */; };
+		C6CC8ECE1E2A9D7F006C231F /* MXFileCryptoStoreMetaData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3284A5AB1DB7CFA800A09972 /* MXFileCryptoStoreMetaData.m */; };
+		C6CC8ECF1E2A9D84006C231F /* MXCryptoAlgorithms.h in Headers */ = {isa = PBXBuildFile; fileRef = 322A51C11D9AC8FE00C8536D /* MXCryptoAlgorithms.h */; };
+		C6CC8ED01E2A9D84006C231F /* MXCryptoAlgorithms.m in Sources */ = {isa = PBXBuildFile; fileRef = 322A51C21D9AC8FE00C8536D /* MXCryptoAlgorithms.m */; };
+		C6CC8ED11E2A9D84006C231F /* MXDecrypting.h in Headers */ = {isa = PBXBuildFile; fileRef = 3271877C1DA7CB2F0071C818 /* MXDecrypting.h */; };
+		C6CC8ED21E2A9D84006C231F /* MXEncrypting.h in Headers */ = {isa = PBXBuildFile; fileRef = 3271877A1DA7CAA60071C818 /* MXEncrypting.h */; };
+		C6CC8ED31E2A9D84006C231F /* MXDecryptionResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 32F9FA7B1DBA0CF0009D98A6 /* MXDecryptionResult.h */; };
+		C6CC8ED41E2A9D84006C231F /* MXDecryptionResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F9FA7C1DBA0CF0009D98A6 /* MXDecryptionResult.m */; };
+		C6CC8ED51E2A9D89006C231F /* MXOlmDecryption.h in Headers */ = {isa = PBXBuildFile; fileRef = 327187831DA7D0220071C818 /* MXOlmDecryption.h */; };
+		C6CC8ED61E2A9D89006C231F /* MXOlmDecryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 327187841DA7D0220071C818 /* MXOlmDecryption.m */; };
+		C6CC8ED71E2A9D89006C231F /* MXOlmEncryption.h in Headers */ = {isa = PBXBuildFile; fileRef = 327187871DA7DCE50071C818 /* MXOlmEncryption.h */; };
+		C6CC8ED81E2A9D89006C231F /* MXOlmEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 327187881DA7DCE50071C818 /* MXOlmEncryption.m */; };
+		C6CC8ED91E2A9D8E006C231F /* MXMegolmDecryption.h in Headers */ = {isa = PBXBuildFile; fileRef = 32A151241DABB0CB00400192 /* MXMegolmDecryption.h */; };
+		C6CC8EDA1E2A9D8E006C231F /* MXMegolmDecryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 32A151251DABB0CB00400192 /* MXMegolmDecryption.m */; };
+		C6CC8EDB1E2A9D8E006C231F /* MXMegolmEncryption.h in Headers */ = {isa = PBXBuildFile; fileRef = 32A151371DAD292400400192 /* MXMegolmEncryption.h */; };
+		C6CC8EDC1E2A9D8E006C231F /* MXMegolmEncryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 32A151381DAD292400400192 /* MXMegolmEncryption.m */; };
+		C6CC8EDD1E2A9DB3006C231F /* MXPushRuleConditionChecker.h in Headers */ = {isa = PBXBuildFile; fileRef = 32DC15CC1A8CF7AE006F9AD3 /* MXPushRuleConditionChecker.h */; };
+		C6CC8EDE1E2A9DB3006C231F /* MXPushRuleEventMatchConditionChecker.h in Headers */ = {isa = PBXBuildFile; fileRef = 32DC15D21A8CF874006F9AD3 /* MXPushRuleEventMatchConditionChecker.h */; };
+		C6CC8EDF1E2A9DB3006C231F /* MXPushRuleEventMatchConditionChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 32DC15D31A8CF874006F9AD3 /* MXPushRuleEventMatchConditionChecker.m */; };
+		C6CC8EE01E2A9DB3006C231F /* MXPushRuleDisplayNameCondtionChecker.h in Headers */ = {isa = PBXBuildFile; fileRef = 322360501A8E610500A3CA81 /* MXPushRuleDisplayNameCondtionChecker.h */; };
+		C6CC8EE11E2A9DB3006C231F /* MXPushRuleDisplayNameCondtionChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 322360511A8E610500A3CA81 /* MXPushRuleDisplayNameCondtionChecker.m */; };
+		C6CC8EE21E2A9DB3006C231F /* MXPushRuleRoomMemberCountConditionChecker.h in Headers */ = {isa = PBXBuildFile; fileRef = 32CAB1051A91EA34008C5BB9 /* MXPushRuleRoomMemberCountConditionChecker.h */; };
+		C6CC8EE31E2A9DB3006C231F /* MXPushRuleRoomMemberCountConditionChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 32CAB1061A91EA34008C5BB9 /* MXPushRuleRoomMemberCountConditionChecker.m */; };
+		C6CC8EE41E2A9DB3006C231F /* MXNotificationCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 32DC15CD1A8CF7AE006F9AD3 /* MXNotificationCenter.h */; };
+		C6CC8EE51E2A9DB3006C231F /* MXNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 32DC15CE1A8CF7AE006F9AD3 /* MXNotificationCenter.m */; };
+		C6CC8EE61E2A9DB8006C231F /* NSData+MatrixSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = F08B8D5A1E014711006171A8 /* NSData+MatrixSDK.h */; };
+		C6CC8EE71E2A9DB8006C231F /* NSData+MatrixSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = F08B8D5B1E014711006171A8 /* NSData+MatrixSDK.m */; };
+		C6CC8EE81E2A9DBD006C231F /* MXMediaLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = F03EF4FA1DF014D9009DF592 /* MXMediaLoader.h */; };
+		C6CC8EE91E2A9DBD006C231F /* MXMediaLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = F03EF4FB1DF014D9009DF592 /* MXMediaLoader.m */; };
+		C6CC8EEA1E2A9DBD006C231F /* MXMediaManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F03EF4FC1DF014D9009DF592 /* MXMediaManager.h */; };
+		C6CC8EEB1E2A9DBD006C231F /* MXMediaManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F03EF4FD1DF014D9009DF592 /* MXMediaManager.m */; };
+		C6CC8EEC1E2A9DD1006C231F /* MXLRUCache.h in Headers */ = {isa = PBXBuildFile; fileRef = F03EF5021DF01596009DF592 /* MXLRUCache.h */; };
+		C6CC8EED1E2A9DD1006C231F /* MXLRUCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F03EF5031DF01596009DF592 /* MXLRUCache.m */; };
+		C6CC8EEE1E2A9DD1006C231F /* MXHTTPClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 320DFDD719DD99B60068622A /* MXHTTPClient.h */; };
+		C6CC8EEF1E2A9DD1006C231F /* MXHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 320DFDD819DD99B60068622A /* MXHTTPClient.m */; };
+		C6CC8EF01E2A9DD1006C231F /* MXHTTPOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 32CAB1091A925B41008C5BB9 /* MXHTTPOperation.h */; };
+		C6CC8EF11E2A9DD1006C231F /* MXHTTPOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 32CAB10A1A925B41008C5BB9 /* MXHTTPOperation.m */; };
+		C6CC8EF21E2A9DD1006C231F /* MXTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 329FB1781A0A74B100A5E88E /* MXTools.m */; };
+		C6CC8EF31E2A9DD1006C231F /* MXLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 327E37B41A974F75007F026F /* MXLogger.h */; };
+		C6CC8EF41E2A9DD1006C231F /* MXLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 327E37B51A974F75007F026F /* MXLogger.m */; };
+		C6CC8EF51E2A9DD8006C231F /* MXCallStack.h in Headers */ = {isa = PBXBuildFile; fileRef = 32BED28E1B00A23F00E668FE /* MXCallStack.h */; };
+		C6CC8EF61E2A9DD8006C231F /* MXCallStackCall.h in Headers */ = {isa = PBXBuildFile; fileRef = 3240951E1AFA432F00D81C97 /* MXCallStackCall.h */; };
+		C6CC8EF71E2A9DDD006C231F /* MXJingleCallStack.h in Headers */ = {isa = PBXBuildFile; fileRef = 329B2ABB1D3FB01D002D546F /* MXJingleCallStack.h */; };
+		C6CC8EF81E2A9DDD006C231F /* MXJingleCallStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 329B2ABC1D3FB01D002D546F /* MXJingleCallStack.m */; };
+		C6CC8EF91E2A9DDD006C231F /* MXJingleCallStackCall.h in Headers */ = {isa = PBXBuildFile; fileRef = 329B2ABD1D3FB01D002D546F /* MXJingleCallStackCall.h */; };
+		C6CC8EFA1E2A9DDD006C231F /* MXJingleCallStackCall.m in Sources */ = {isa = PBXBuildFile; fileRef = 329B2ABE1D3FB01D002D546F /* MXJingleCallStackCall.m */; };
+		C6CC8EFB1E2A9DDD006C231F /* MXJingleVideoView.h in Headers */ = {isa = PBXBuildFile; fileRef = 323D29981D426F7000A80BE4 /* MXJingleVideoView.h */; };
+		C6CC8EFC1E2A9DDD006C231F /* MXJingleVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 323D29991D426F7000A80BE4 /* MXJingleVideoView.m */; };
+		C6CC8EFD1E2A9DE1006C231F /* MXCall.h in Headers */ = {isa = PBXBuildFile; fileRef = 3245A74C1AF7B2930001D8A7 /* MXCall.h */; };
+		C6CC8EFE1E2A9DE1006C231F /* MXCall.m in Sources */ = {isa = PBXBuildFile; fileRef = 3245A74D1AF7B2930001D8A7 /* MXCall.m */; };
+		C6CC8EFF1E2A9DE1006C231F /* MXCallManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 3245A74E1AF7B2930001D8A7 /* MXCallManager.h */; };
+		C6CC8F001E2A9DE1006C231F /* MXCallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3245A74F1AF7B2930001D8A7 /* MXCallManager.m */; };
 		D123DC2791F0EAF08F70C207 /* libPods-MatrixSDKTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ABDD5D65684E6B7F52FB94E /* libPods-MatrixSDKTests.a */; };
 		F03EF4FE1DF014D9009DF592 /* MXMediaLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = F03EF4FA1DF014D9009DF592 /* MXMediaLoader.h */; };
 		F03EF4FF1DF014D9009DF592 /* MXMediaLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = F03EF4FB1DF014D9009DF592 /* MXMediaLoader.m */; };
@@ -242,6 +410,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		089A0C9F96113C661A696AD9 /* libPods-MatrixSDK_macOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MatrixSDK_macOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BCFBADF157F3C8C43112BD6 /* Pods-MatrixSDKTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MatrixSDKTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MatrixSDKTests/Pods-MatrixSDKTests.release.xcconfig"; sourceTree = "<group>"; };
 		2BF02FACC417CA3368671024 /* Pods-MatrixSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MatrixSDK.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MatrixSDK/Pods-MatrixSDK.debug.xcconfig"; sourceTree = "<group>"; };
 		320BBF3B1D6C7D9D0079890E /* MXEventsEnumerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXEventsEnumerator.h; sourceTree = "<group>"; };
@@ -433,16 +602,20 @@
 		32FCAB4C19E578860049C555 /* MXRestClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MXRestClientTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		32FE41341D0AB7070060835E /* MXEnumConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXEnumConstants.h; sourceTree = "<group>"; };
 		32FE41351D0AB7070060835E /* MXEnumConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXEnumConstants.m; sourceTree = "<group>"; };
+		38CB00F9DBB652F70B6CDFB6 /* Pods-MatrixSDK_macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MatrixSDK_macOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-MatrixSDK_macOS/Pods-MatrixSDK_macOS.release.xcconfig"; sourceTree = "<group>"; };
 		3ABDD5D65684E6B7F52FB94E /* libPods-MatrixSDKTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MatrixSDKTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		71DE22DC1BC7C51200284153 /* MXReceiptData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXReceiptData.m; sourceTree = "<group>"; };
 		71DE22DD1BC7C51200284153 /* MXReceiptData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXReceiptData.h; sourceTree = "<group>"; };
 		B1F1AE550CF4C15B653DDE6E /* Pods-MatrixSDKTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MatrixSDKTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MatrixSDKTests/Pods-MatrixSDKTests.debug.xcconfig"; sourceTree = "<group>"; };
-		C6CC8E351E2A8C37006C231F /* MatrixSDK_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MatrixSDK_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6CC8E351E2A8C37006C231F /* MatrixSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MatrixSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6CC8E371E2A8C37006C231F /* MatrixSDK_macOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MatrixSDK_macOS.h; sourceTree = "<group>"; };
 		C6CC8E381E2A8C37006C231F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C6CC8E3D1E2A8C38006C231F /* MatrixSDK_macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MatrixSDK_macOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6CC8E421E2A8C38006C231F /* MatrixSDK_macOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MatrixSDK_macOSTests.m; sourceTree = "<group>"; };
 		C6CC8E441E2A8C38006C231F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D235491CA6A0A03E70B013AD /* Pods-MatrixSDK_macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MatrixSDK_macOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MatrixSDK_macOS/Pods-MatrixSDK_macOS.debug.xcconfig"; sourceTree = "<group>"; };
+		D486729261A58464D98D02A0 /* Pods-MatrixSDK_macOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MatrixSDK_macOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MatrixSDK_macOSTests/Pods-MatrixSDK_macOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		D7E279EF4E04931407B4FC19 /* libPods-MatrixSDK_macOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MatrixSDK_macOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1674C6FF8BBF074E7F76059 /* libPods-MatrixSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MatrixSDK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F03EF4FA1DF014D9009DF592 /* MXMediaLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXMediaLoader.h; sourceTree = "<group>"; };
 		F03EF4FB1DF014D9009DF592 /* MXMediaLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXMediaLoader.m; sourceTree = "<group>"; };
@@ -460,6 +633,7 @@
 		F0AC734D1DA4F53B0011DAEE /* MXRoomEventFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXRoomEventFilter.m; sourceTree = "<group>"; };
 		F0C34CB91C18C80000C36F09 /* MXSDKOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MXSDKOptions.h; sourceTree = "<group>"; };
 		F0C34CBA1C18C93700C36F09 /* MXSDKOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXSDKOptions.m; sourceTree = "<group>"; };
+		FC7990655963CC0570E99D54 /* Pods-MatrixSDK_macOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MatrixSDK_macOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MatrixSDK_macOSTests/Pods-MatrixSDK_macOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -484,6 +658,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5049044AED8A6E60EBD3DFBE /* libPods-MatrixSDK_macOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -491,7 +666,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C6CC8E3E1E2A8C38006C231F /* MatrixSDK_macOS.framework in Frameworks */,
+				C6CC8E3E1E2A8C38006C231F /* MatrixSDK.framework in Frameworks */,
+				B829EA58F957D7FE331A790A /* libPods-MatrixSDK_macOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -505,6 +681,10 @@
 				32F1FE9AF82A426C2EAED587 /* Pods-MatrixSDK.release.xcconfig */,
 				B1F1AE550CF4C15B653DDE6E /* Pods-MatrixSDKTests.debug.xcconfig */,
 				0BCFBADF157F3C8C43112BD6 /* Pods-MatrixSDKTests.release.xcconfig */,
+				D235491CA6A0A03E70B013AD /* Pods-MatrixSDK_macOS.debug.xcconfig */,
+				38CB00F9DBB652F70B6CDFB6 /* Pods-MatrixSDK_macOS.release.xcconfig */,
+				FC7990655963CC0570E99D54 /* Pods-MatrixSDK_macOSTests.debug.xcconfig */,
+				D486729261A58464D98D02A0 /* Pods-MatrixSDK_macOSTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -830,7 +1010,7 @@
 			children = (
 				32C6F92D19DD814400EA4E9C /* MatrixSDK.framework */,
 				32C6F93819DD814400EA4E9C /* MatrixSDKTests.xctest */,
-				C6CC8E351E2A8C37006C231F /* MatrixSDK_macOS.framework */,
+				C6CC8E351E2A8C37006C231F /* MatrixSDK.framework */,
 				C6CC8E3D1E2A8C38006C231F /* MatrixSDK_macOSTests.xctest */,
 			);
 			name = Products;
@@ -960,6 +1140,8 @@
 				323B2AEE1BCD5CDE00B11F34 /* CoreData.framework */,
 				E1674C6FF8BBF074E7F76059 /* libPods-MatrixSDK.a */,
 				3ABDD5D65684E6B7F52FB94E /* libPods-MatrixSDKTests.a */,
+				D7E279EF4E04931407B4FC19 /* libPods-MatrixSDK_macOS.a */,
+				089A0C9F96113C661A696AD9 /* libPods-MatrixSDK_macOSTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1103,7 +1285,93 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C6CC8E451E2A8C38006C231F /* MatrixSDK_macOS.h in Headers */,
+				C6CC8E681E2A9D27006C231F /* MXNoStore.h in Headers */,
+				C6CC8ECD1E2A9D7F006C231F /* MXFileCryptoStoreMetaData.h in Headers */,
+				C6CC8EBA1E2A9D72006C231F /* MXDeviceInfo.h in Headers */,
+				C6CC8E581E2A9363006C231F /* MXRestClient.h in Headers */,
+				C6CC8E8C1E2A9D5C006C231F /* MXPeekingRoom.h in Headers */,
+				C6CC8E6B1E2A9D30006C231F /* MXMemoryRoomStore.h in Headers */,
+				C6CC8EF01E2A9DD1006C231F /* MXHTTPOperation.h in Headers */,
+				C6CC8E671E2A9D22006C231F /* MXStore.h in Headers */,
+				C6CC8EB51E2A9D6D006C231F /* MXCrypto_Private.h in Headers */,
+				C6CC8EAF1E2A9D68006C231F /* MXEventsEnumeratorOnArray.h in Headers */,
+				C6CC8EAC1E2A9D60006C231F /* MXRoomPowerLevels.h in Headers */,
+				C6CC8EEA1E2A9DBD006C231F /* MXMediaManager.h in Headers */,
+				C6CC8EC81E2A9D76006C231F /* MXCryptoStore.h in Headers */,
+				C6CC8EF51E2A9DD8006C231F /* MXCallStack.h in Headers */,
+				C6CC8E6E1E2A9D3C006C231F /* MXReceiptData.h in Headers */,
+				C6CC8E5C1E2A9553006C231F /* MXError.h in Headers */,
+				C6CC8E9A1E2A9D5C006C231F /* MXRoomEventFilter.h in Headers */,
+				C6CC8EF91E2A9DDD006C231F /* MXJingleCallStackCall.h in Headers */,
+				C6CC8EA21E2A9D5C006C231F /* MXUser.h in Headers */,
+				C6CC8EC41E2A9D72006C231F /* MXQueuedEncryption.h in Headers */,
+				C6CC8EB81E2A9D72006C231F /* MXCryptoConstants.h in Headers */,
+				C6CC8ED71E2A9D89006C231F /* MXOlmEncryption.h in Headers */,
+				C6CC8E921E2A9D5C006C231F /* MXEventListener.h in Headers */,
+				C6CC8EB31E2A9D6D006C231F /* MXCrypto.h in Headers */,
+				C6CC8EC91E2A9D7B006C231F /* MXRealmCryptoStore.h in Headers */,
+				C6CC8ED11E2A9D84006C231F /* MXDecrypting.h in Headers */,
+				C6CC8E5E1E2A9553006C231F /* MXEnumConstants.h in Headers */,
+				C6CC8EC01E2A9D72006C231F /* MXOlmInboundGroupSession.h in Headers */,
+				C6CC8EF71E2A9DDD006C231F /* MXJingleCallStack.h in Headers */,
+				C6CC8EE01E2A9DB3006C231F /* MXPushRuleDisplayNameCondtionChecker.h in Headers */,
+				C6CC8EC21E2A9D72006C231F /* MXOlmSessionResult.h in Headers */,
+				C6CC8EAA1E2A9D60006C231F /* MXEvent.h in Headers */,
+				C6CC8E9C1E2A9D5C006C231F /* MXRoomMember.h in Headers */,
+				C6CC8E7C1E2A9D53006C231F /* MXCoreDataRoom.h in Headers */,
+				C6CC8EDD1E2A9DB3006C231F /* MXPushRuleConditionChecker.h in Headers */,
+				C6CC8EFB1E2A9DDD006C231F /* MXJingleVideoView.h in Headers */,
+				C6CC8EBC1E2A9D72006C231F /* MXEncryptedAttachments.h in Headers */,
+				C6CC8EAE1E2A9D68006C231F /* MXEventsEnumerator.h in Headers */,
+				C6CC8EA61E2A9D60006C231F /* MXJSONModel.h in Headers */,
+				C6CC8EE81E2A9DBD006C231F /* MXMediaLoader.h in Headers */,
+				C6CC8E611E2A9676006C231F /* MXTools.h in Headers */,
+				C6CC8E881E2A9D53006C231F /* MXCoreDataEvent.h in Headers */,
+				C6CC8E6A1E2A9D2E006C231F /* MXMemoryStore.h in Headers */,
+				C6CC8EEE1E2A9DD1006C231F /* MXHTTPClient.h in Headers */,
+				C6CC8ED21E2A9D84006C231F /* MXEncrypting.h in Headers */,
+				C6CC8E961E2A9D5C006C231F /* MXInvite3PID.h in Headers */,
+				C6CC8EBE1E2A9D72006C231F /* MXKey.h in Headers */,
+				C6CC8E941E2A9D5C006C231F /* MXEventTimeline.h in Headers */,
+				C6CC8EE21E2A9DB3006C231F /* MXPushRuleRoomMemberCountConditionChecker.h in Headers */,
+				C6CC8EFD1E2A9DE1006C231F /* MXCall.h in Headers */,
+				C6CC8ECB1E2A9D7F006C231F /* MXFileCryptoStore.h in Headers */,
+				C6CC8EDE1E2A9DB3006C231F /* MXPushRuleEventMatchConditionChecker.h in Headers */,
+				C6CC8EDB1E2A9D8E006C231F /* MXMegolmEncryption.h in Headers */,
+				C6CC8E571E2A9319006C231F /* MatrixSDK.h in Headers */,
+				C6CC8EC61E2A9D72006C231F /* MXUsersDevicesMap.h in Headers */,
+				C6CC8E721E2A9D44006C231F /* MXFileRoomStore.h in Headers */,
+				C6CC8E901E2A9D5C006C231F /* MXRoomAccountData.h in Headers */,
+				C6CC8E5A1E2A9553006C231F /* MXSession.h in Headers */,
+				C6CC8EA81E2A9D60006C231F /* MXJSONModels.h in Headers */,
+				C6CC8EA01E2A9D5C006C231F /* MXAccountData.h in Headers */,
+				C6CC8EF61E2A9DD8006C231F /* MXCallStackCall.h in Headers */,
+				C6CC8EB21E2A9D68006C231F /* MXEventsByTypesEnumeratorOnArray.h in Headers */,
+				C6CC8EB61E2A9D6D006C231F /* MXOlmDevice.h in Headers */,
+				C6CC8EE61E2A9DB8006C231F /* NSData+MatrixSDK.h in Headers */,
+				C6CC8EEC1E2A9DD1006C231F /* MXLRUCache.h in Headers */,
+				C6CC8ED31E2A9D84006C231F /* MXDecryptionResult.h in Headers */,
+				C6CC8ED91E2A9D8E006C231F /* MXMegolmDecryption.h in Headers */,
+				C6CC8ED51E2A9D89006C231F /* MXOlmDecryption.h in Headers */,
+				C6CC8E861E2A9D53006C231F /* MXCoreDataEvent+CoreDataProperties.h in Headers */,
+				C6CC8E781E2A9D53006C231F /* MXCoreDataStore.h in Headers */,
+				C6CC8E7A1E2A9D53006C231F /* MXCoreDataRoom+CoreDataProperties.h in Headers */,
+				C6CC8E801E2A9D53006C231F /* MXCoreDataRoomState+CoreDataProperties.h in Headers */,
+				C6CC8E9E1E2A9D5C006C231F /* MXRoomThirdPartyInvite.h in Headers */,
+				C6CC8E651E2A9CD8006C231F /* NSObject+sortedKeys.h in Headers */,
+				C6CC8E8A1E2A9D5C006C231F /* MXRoom.h in Headers */,
+				C6CC8EF31E2A9DD1006C231F /* MXLogger.h in Headers */,
+				C6CC8E7E1E2A9D53006C231F /* MXCoreDataRoomState.h in Headers */,
+				C6CC8ECF1E2A9D84006C231F /* MXCryptoAlgorithms.h in Headers */,
+				C6CC8EFF1E2A9DE1006C231F /* MXCallManager.h in Headers */,
+				C6CC8E741E2A9D44006C231F /* MXFileStoreMetaData.h in Headers */,
+				C6CC8E701E2A9D44006C231F /* MXFileStore.h in Headers */,
+				C6CC8E841E2A9D53006C231F /* MXCoreDataAccount.h in Headers */,
+				C6CC8E821E2A9D53006C231F /* MXCoreDataAccount+CoreDataProperties.h in Headers */,
+				C6CC8E8E1E2A9D5C006C231F /* MXRoomState.h in Headers */,
+				C6CC8EA41E2A9D5C006C231F /* MXMyUser.h in Headers */,
+				C6CC8E981E2A9D5C006C231F /* MXSessionEventListener.h in Headers */,
+				C6CC8EE41E2A9DB3006C231F /* MXNotificationCenter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1156,10 +1424,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C6CC8E4A1E2A8C38006C231F /* Build configuration list for PBXNativeTarget "MatrixSDK_macOS" */;
 			buildPhases = (
+				89355955EDC284FCCCFBCE71 /* [CP] Check Pods Manifest.lock */,
 				C6CC8E301E2A8C37006C231F /* Sources */,
 				C6CC8E311E2A8C37006C231F /* Frameworks */,
 				C6CC8E321E2A8C37006C231F /* Headers */,
 				C6CC8E331E2A8C37006C231F /* Resources */,
+				A21146ACC2F97AE19221F9AF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1167,16 +1437,19 @@
 			);
 			name = MatrixSDK_macOS;
 			productName = MatrixSDK_macOS;
-			productReference = C6CC8E351E2A8C37006C231F /* MatrixSDK_macOS.framework */;
+			productReference = C6CC8E351E2A8C37006C231F /* MatrixSDK.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		C6CC8E3C1E2A8C38006C231F /* MatrixSDK_macOSTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C6CC8E4B1E2A8C38006C231F /* Build configuration list for PBXNativeTarget "MatrixSDK_macOSTests" */;
 			buildPhases = (
+				2D4009BF60CBB033A00E88A9 /* [CP] Check Pods Manifest.lock */,
 				C6CC8E391E2A8C38006C231F /* Sources */,
 				C6CC8E3A1E2A8C38006C231F /* Frameworks */,
 				C6CC8E3B1E2A8C38006C231F /* Resources */,
+				392B406F33D7C0D3F3087D5C /* [CP] Embed Pods Frameworks */,
+				F20D16C71B8B151843D85987 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1280,6 +1553,36 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		2D4009BF60CBB033A00E88A9 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		392B406F33D7C0D3F3087D5C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MatrixSDK_macOSTests/Pods-MatrixSDK_macOSTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		7114C42CA45A805993B08914 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1293,6 +1596,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MatrixSDKTests/Pods-MatrixSDKTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		89355955EDC284FCCCFBCE71 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		977E3F228F61BF8765F90684 /* [CP] Check Pods Manifest.lock */ = {
@@ -1310,6 +1628,21 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		A21146ACC2F97AE19221F9AF /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MatrixSDK_macOS/Pods-MatrixSDK_macOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		DDF735E488DE4C03C22D5A36 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1323,6 +1656,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MatrixSDKTests/Pods-MatrixSDKTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F20D16C71B8B151843D85987 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MatrixSDK_macOSTests/Pods-MatrixSDK_macOSTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FDD4B60A568A908CBDAC1A26 /* [CP] Copy Pods Resources */ = {
@@ -1471,6 +1819,85 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6CC8EB01E2A9D68006C231F /* MXEventsEnumeratorOnArray.m in Sources */,
+				C6CC8ED61E2A9D89006C231F /* MXOlmDecryption.m in Sources */,
+				C6CC8EF41E2A9DD1006C231F /* MXLogger.m in Sources */,
+				C6CC8E991E2A9D5C006C231F /* MXSessionEventListener.m in Sources */,
+				C6CC8EB11E2A9D68006C231F /* MXEventsByTypesEnumeratorOnArray.m in Sources */,
+				C6CC8EC71E2A9D72006C231F /* MXUsersDevicesMap.m in Sources */,
+				C6CC8E891E2A9D53006C231F /* MXCoreDataEvent.m in Sources */,
+				C6CC8E691E2A9D2A006C231F /* MXNoStore.m in Sources */,
+				C6CC8EFE1E2A9DE1006C231F /* MXCall.m in Sources */,
+				C6CC8E661E2A9CDB006C231F /* NSObject+sortedKeys.m in Sources */,
+				C6CC8EA51E2A9D5C006C231F /* MXMyUser.m in Sources */,
+				C6CC8F001E2A9DE1006C231F /* MXCallManager.m in Sources */,
+				C6CC8EB91E2A9D72006C231F /* MXCryptoConstants.m in Sources */,
+				C6CC8EE91E2A9DBD006C231F /* MXMediaLoader.m in Sources */,
+				C6CC8E591E2A9553006C231F /* MXRestClient.m in Sources */,
+				C6CC8E911E2A9D5C006C231F /* MXRoomAccountData.m in Sources */,
+				C6CC8E811E2A9D53006C231F /* MXCoreDataRoomState+CoreDataProperties.m in Sources */,
+				C6CC8EEF1E2A9DD1006C231F /* MXHTTPClient.m in Sources */,
+				C6CC8EA31E2A9D5C006C231F /* MXUser.m in Sources */,
+				C6CC8E871E2A9D53006C231F /* MXCoreDataEvent+CoreDataProperties.m in Sources */,
+				C6CC8E791E2A9D53006C231F /* MXCoreDataStore.m in Sources */,
+				C6CC8ECC1E2A9D7F006C231F /* MXFileCryptoStore.m in Sources */,
+				C6CC8EBB1E2A9D72006C231F /* MXDeviceInfo.m in Sources */,
+				C6CC8E831E2A9D53006C231F /* MXCoreDataAccount+CoreDataProperties.m in Sources */,
+				C6CC8E931E2A9D5C006C231F /* MXEventListener.m in Sources */,
+				C6CC8E751E2A9D44006C231F /* MXFileStoreMetaData.m in Sources */,
+				C6CC8EC11E2A9D72006C231F /* MXOlmInboundGroupSession.m in Sources */,
+				C6CC8EBD1E2A9D72006C231F /* MXEncryptedAttachments.m in Sources */,
+				C6CC8EFC1E2A9DDD006C231F /* MXJingleVideoView.m in Sources */,
+				C6CC8EE71E2A9DB8006C231F /* NSData+MatrixSDK.m in Sources */,
+				C6CC8E951E2A9D5C006C231F /* MXEventTimeline.m in Sources */,
+				C6CC8E731E2A9D44006C231F /* MXFileRoomStore.m in Sources */,
+				C6CC8E7F1E2A9D53006C231F /* MXCoreDataRoomState.m in Sources */,
+				C6CC8E761E2A9D4E006C231F /* MXCoreDataStore.xcdatamodeld in Sources */,
+				C6CC8EC51E2A9D72006C231F /* MXQueuedEncryption.m in Sources */,
+				C6CC8E5D1E2A9553006C231F /* MXError.m in Sources */,
+				C6CC8EE31E2A9DB3006C231F /* MXPushRuleRoomMemberCountConditionChecker.m in Sources */,
+				C6CC8E8F1E2A9D5C006C231F /* MXRoomState.m in Sources */,
+				C6CC8E971E2A9D5C006C231F /* MXInvite3PID.m in Sources */,
+				C6CC8E8B1E2A9D5C006C231F /* MXRoom.m in Sources */,
+				C6CC8EBF1E2A9D72006C231F /* MXKey.m in Sources */,
+				C6CC8EF21E2A9DD1006C231F /* MXTools.m in Sources */,
+				C6CC8E6D1E2A9D39006C231F /* MXMemoryRoomStore.m in Sources */,
+				C6CC8EF81E2A9DDD006C231F /* MXJingleCallStack.m in Sources */,
+				C6CC8E711E2A9D44006C231F /* MXFileStore.m in Sources */,
+				C6CC8E9D1E2A9D5C006C231F /* MXRoomMember.m in Sources */,
+				C6CC8E851E2A9D53006C231F /* MXCoreDataAccount.m in Sources */,
+				C6CC8E6F1E2A9D3E006C231F /* MXReceiptData.m in Sources */,
+				C6CC8EF11E2A9DD1006C231F /* MXHTTPOperation.m in Sources */,
+				C6CC8EAB1E2A9D60006C231F /* MXEvent.m in Sources */,
+				C6CC8EE51E2A9DB3006C231F /* MXNotificationCenter.m in Sources */,
+				C6CC8E9F1E2A9D5C006C231F /* MXRoomThirdPartyInvite.m in Sources */,
+				C6CC8EE11E2A9DB3006C231F /* MXPushRuleDisplayNameCondtionChecker.m in Sources */,
+				C6CC8EED1E2A9DD1006C231F /* MXLRUCache.m in Sources */,
+				C6CC8EA71E2A9D60006C231F /* MXJSONModel.m in Sources */,
+				C6CC8E9B1E2A9D5C006C231F /* MXRoomEventFilter.m in Sources */,
+				C6CC8ED01E2A9D84006C231F /* MXCryptoAlgorithms.m in Sources */,
+				C6CC8EDF1E2A9DB3006C231F /* MXPushRuleEventMatchConditionChecker.m in Sources */,
+				C6CC8EAD1E2A9D60006C231F /* MXRoomPowerLevels.m in Sources */,
+				C6CC8E601E2A9553006C231F /* MXSDKOptions.m in Sources */,
+				C6CC8EC31E2A9D72006C231F /* MXOlmSessionResult.m in Sources */,
+				C6CC8EEB1E2A9DBD006C231F /* MXMediaManager.m in Sources */,
+				C6CC8E6C1E2A9D34006C231F /* MXMemoryStore.m in Sources */,
+				C6CC8ED41E2A9D84006C231F /* MXDecryptionResult.m in Sources */,
+				C6CC8EA91E2A9D60006C231F /* MXJSONModels.m in Sources */,
+				C6CC8EFA1E2A9DDD006C231F /* MXJingleCallStackCall.m in Sources */,
+				C6CC8E5B1E2A9553006C231F /* MXSession.m in Sources */,
+				C6CC8EDC1E2A9D8E006C231F /* MXMegolmEncryption.m in Sources */,
+				C6CC8E7B1E2A9D53006C231F /* MXCoreDataRoom+CoreDataProperties.m in Sources */,
+				C6CC8E7D1E2A9D53006C231F /* MXCoreDataRoom.m in Sources */,
+				C6CC8E5F1E2A9553006C231F /* MXEnumConstants.m in Sources */,
+				C6CC8EDA1E2A9D8E006C231F /* MXMegolmDecryption.m in Sources */,
+				C6CC8ECE1E2A9D7F006C231F /* MXFileCryptoStoreMetaData.m in Sources */,
+				C6CC8EB71E2A9D6D006C231F /* MXOlmDevice.m in Sources */,
+				C6CC8E8D1E2A9D5C006C231F /* MXPeekingRoom.m in Sources */,
+				C6CC8ED81E2A9D89006C231F /* MXOlmEncryption.m in Sources */,
+				C6CC8EA11E2A9D5C006C231F /* MXAccountData.m in Sources */,
+				C6CC8EB41E2A9D6D006C231F /* MXCrypto.m in Sources */,
+				C6CC8ECA1E2A9D7B006C231F /* MXRealmCryptoStore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1479,6 +1906,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6CC8E431E2A8C38006C231F /* MatrixSDK_macOSTests.m in Sources */,
+				C6CC8E771E2A9D4F006C231F /* MXCoreDataStore.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1676,6 +2104,7 @@
 		};
 		C6CC8E461E2A8C38006C231F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D235491CA6A0A03E70B013AD /* Pods-MatrixSDK_macOS.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -1697,7 +2126,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.matrix.MatrixSDK-macOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = MatrixSDK;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1706,6 +2135,7 @@
 		};
 		C6CC8E471E2A8C38006C231F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 38CB00F9DBB652F70B6CDFB6 /* Pods-MatrixSDK_macOS.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -1727,7 +2157,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.matrix.MatrixSDK-macOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = MatrixSDK;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1736,6 +2166,7 @@
 		};
 		C6CC8E481E2A8C38006C231F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FC7990655963CC0570E99D54 /* Pods-MatrixSDK_macOSTests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -1757,6 +2188,7 @@
 		};
 		C6CC8E491E2A8C38006C231F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D486729261A58464D98D02A0 /* Pods-MatrixSDK_macOSTests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -1813,6 +2245,7 @@
 				C6CC8E471E2A8C38006C231F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C6CC8E4B1E2A8C38006C231F /* Build configuration list for PBXNativeTarget "MatrixSDK_macOSTests" */ = {
 			isa = XCConfigurationList;
@@ -1821,6 +2254,7 @@
 				C6CC8E491E2A8C38006C231F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

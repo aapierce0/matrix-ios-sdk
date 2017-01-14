@@ -360,6 +360,7 @@ FOUNDATION_EXPORT NSString *const kMXRoomDidUpdateUnreadNotification;
  
  @return a MXHTTPOperation instance.
  */
+#if TARGET_OS_IPHONE
 - (MXHTTPOperation*)sendImage:(NSData*)imageData
                 withImageSize:(CGSize)imageSize
                      mimeType:(NSString*)mimetype
@@ -367,6 +368,15 @@ FOUNDATION_EXPORT NSString *const kMXRoomDidUpdateUnreadNotification;
                     localEcho:(MXEvent**)localEcho
                       success:(void (^)(NSString *eventId))success
                       failure:(void (^)(NSError *error))failure;
+#elif TARGET_OS_MAC
+- (MXHTTPOperation*)sendImage:(NSData*)imageData
+                withImageSize:(CGSize)imageSize
+                     mimeType:(NSString*)mimetype
+                 andThumbnail:(NSImage*)thumbnail
+                    localEcho:(MXEvent**)localEcho
+                      success:(void (^)(NSString *eventId))success
+                      failure:(void (^)(NSError *error))failure;
+#endif
 
 /**
  Send an video to the room.
@@ -380,12 +390,19 @@ FOUNDATION_EXPORT NSString *const kMXRoomDidUpdateUnreadNotification;
  
  @return a MXHTTPOperation instance.
  */
+#if TARGET_OS_IPHONE
 - (MXHTTPOperation*)sendVideo:(NSURL*)videoLocalURL
                 withThumbnail:(UIImage*)videoThumbnail
                     localEcho:(MXEvent**)localEcho
                       success:(void (^)(NSString *eventId))success
                       failure:(void (^)(NSError *error))failure;
-
+#elif TARGET_OS_MAC
+- (MXHTTPOperation*)sendVideo:(NSURL*)videoLocalURL
+                withThumbnail:(NSImage*)videoThumbnail
+                    localEcho:(MXEvent**)localEcho
+                      success:(void (^)(NSString *eventId))success
+                      failure:(void (^)(NSError *error))failure;
+#endif
 /**
  Send a file to the room.
  

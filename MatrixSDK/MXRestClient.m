@@ -603,7 +603,11 @@ MXAuthAction;
     if (parameters[@"password"] && !parameters[@"initial_device_display_name"])
     {
         NSMutableDictionary *newParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
+#if TARGET_OS_IPHONE
         newParameters[@"initial_device_display_name"] = [UIDevice currentDevice].name;
+#elif TARGET_OS_MAC
+        newParameters[@"initial_device_display_name"] = [NSHost currentHost].localizedName;
+#endif
         parameters = newParameters;
     }
 
@@ -3187,7 +3191,11 @@ MXAuthAction;
     if ([mxcContentURI hasPrefix:kMXContentUriScheme])
     {
         // Convert first the provided size in pixels
+#if TARGET_OS_IPHONE
         CGFloat scale = [[UIScreen mainScreen] scale];
+#elif TARGET_OS_MAC
+        CGFloat scale = [[NSScreen mainScreen] backingScaleFactor];
+#endif
         CGSize sizeInPixels = CGSizeMake(viewSize.width * scale, viewSize.height * scale);
         
         // Replace the "mxc://" scheme by the absolute http location for the content thumbnail

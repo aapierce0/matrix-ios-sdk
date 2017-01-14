@@ -15,7 +15,12 @@
  */
 
 #import <Foundation/Foundation.h>
+
+#if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
+#elif TARGET_OS_MAC
+#import <Cocoa/Cocoa.h>
+#endif
 
 #import "MXEvent.h"
 #import "MXCallStackCall.h"
@@ -148,6 +153,7 @@ extern NSString *const kMXCallStateDidChange;
  */
 @property (readonly, nonatomic) NSString *callerId;
 
+#if TARGET_OS_IPHONE
 /**
  The UIView that receives frames from the user's camera.
  */
@@ -163,7 +169,7 @@ extern NSString *const kMXCallStateDidChange;
  on the other peer device.
  */
 @property (nonatomic) UIDeviceOrientation selfOrientation;
-
+#endif
 /**
  Mute state of the audio.
  */

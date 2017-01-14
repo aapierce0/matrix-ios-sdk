@@ -12,7 +12,16 @@ pod 'Realm', '~> 2.1.1'
 
 end
 
+target "MatrixSDK_macOS" do
+pod 'AFNetworking', '~> 3.1.0'
+#pod 'OLMKit'
+#pod 'Realm', '~> 2.1.1'
+end
+
 target "MatrixSDKTests" do
 
 end
 
+target "MatrixSDK_macOSTests" do
+    
+end

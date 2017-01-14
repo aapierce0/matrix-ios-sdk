@@ -17,7 +17,12 @@
 #import <Foundation/Foundation.h>
 
 #import "MXJSONModels.h"
+
+#if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
+#elif TARGET_OS_MAC
+#import <Cocoa/Cocoa.h>
+#endif
 
 @class MXSession;
 @class MXEvent;
