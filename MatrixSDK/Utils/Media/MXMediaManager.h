@@ -44,6 +44,7 @@ extern NSString *const kMXMediaManagerDefaultCacheFolder;
  */
 + (BOOL)writeMediaData:(NSData *)mediaData toFilePath:(NSString*)filePath;
 
+
 /**
  Load an image in memory cache. If the image is not in the cache,
  load it from the given path, insert it into the cache and return it.
@@ -53,6 +54,7 @@ extern NSString *const kMXMediaManagerDefaultCacheFolder;
  @param filePath picture file path.
  @return Image (if any).
  */
+#if TARGET_OS_IPHONE
 + (UIImage*)loadThroughCacheWithFilePath:(NSString*)filePath;
 
 /**
@@ -87,6 +89,8 @@ extern NSString *const kMXMediaManagerDefaultCacheFolder;
  @param failure A block object called when the operation fails.
  */
 + (void)saveImageToPhotosLibrary:(UIImage*)image success:(void (^)(NSURL *imageURL))success failure:(void (^)(NSError *error))failure;
+
+#endif
 
 /**
  Save a media to user's photos library

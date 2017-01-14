@@ -23,6 +23,7 @@
 #import "MXJSONModels.h"
 
 #import <OLMKit/OLMKit.h>
+
 #import "MXOlmInboundGroupSession.h"
 #import "MXDeviceInfo.h"
 

@@ -308,8 +308,6 @@
 		C6CC8EC81E2A9D76006C231F /* MXCryptoStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 3284A59D1DB7C00600A09972 /* MXCryptoStore.h */; };
 		C6CC8EC91E2A9D7B006C231F /* MXRealmCryptoStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 3259CD511DF860C300186944 /* MXRealmCryptoStore.h */; };
 		C6CC8ECA1E2A9D7B006C231F /* MXRealmCryptoStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 3259CD521DF860C300186944 /* MXRealmCryptoStore.m */; };
-		C6CC8ECB1E2A9D7F006C231F /* MXFileCryptoStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 3284A5A81DB7CFA800A09972 /* MXFileCryptoStore.h */; };
-		C6CC8ECC1E2A9D7F006C231F /* MXFileCryptoStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 3284A5A91DB7CFA800A09972 /* MXFileCryptoStore.m */; };
 		C6CC8ECD1E2A9D7F006C231F /* MXFileCryptoStoreMetaData.h in Headers */ = {isa = PBXBuildFile; fileRef = 3284A5AA1DB7CFA800A09972 /* MXFileCryptoStoreMetaData.h */; };
 		C6CC8ECE1E2A9D7F006C231F /* MXFileCryptoStoreMetaData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3284A5AB1DB7CFA800A09972 /* MXFileCryptoStoreMetaData.m */; };
 		C6CC8ECF1E2A9D84006C231F /* MXCryptoAlgorithms.h in Headers */ = {isa = PBXBuildFile; fileRef = 322A51C11D9AC8FE00C8536D /* MXCryptoAlgorithms.h */; };
@@ -1335,7 +1333,6 @@
 				C6CC8E941E2A9D5C006C231F /* MXEventTimeline.h in Headers */,
 				C6CC8EE21E2A9DB3006C231F /* MXPushRuleRoomMemberCountConditionChecker.h in Headers */,
 				C6CC8EFD1E2A9DE1006C231F /* MXCall.h in Headers */,
-				C6CC8ECB1E2A9D7F006C231F /* MXFileCryptoStore.h in Headers */,
 				C6CC8EDE1E2A9DB3006C231F /* MXPushRuleEventMatchConditionChecker.h in Headers */,
 				C6CC8EDB1E2A9D8E006C231F /* MXMegolmEncryption.h in Headers */,
 				C6CC8E571E2A9319006C231F /* MatrixSDK.h in Headers */,
@@ -1840,7 +1837,6 @@
 				C6CC8EA31E2A9D5C006C231F /* MXUser.m in Sources */,
 				C6CC8E871E2A9D53006C231F /* MXCoreDataEvent+CoreDataProperties.m in Sources */,
 				C6CC8E791E2A9D53006C231F /* MXCoreDataStore.m in Sources */,
-				C6CC8ECC1E2A9D7F006C231F /* MXFileCryptoStore.m in Sources */,
 				C6CC8EBB1E2A9D72006C231F /* MXDeviceInfo.m in Sources */,
 				C6CC8E831E2A9D53006C231F /* MXCoreDataAccount+CoreDataProperties.m in Sources */,
 				C6CC8E931E2A9D5C006C231F /* MXEventListener.m in Sources */,

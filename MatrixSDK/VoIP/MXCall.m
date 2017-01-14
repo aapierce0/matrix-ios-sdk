@@ -401,6 +401,8 @@ NSString *const kMXCallStateDidChange = @"kMXCallStateDidChange";
     [[NSNotificationCenter defaultCenter] postNotificationName:kMXCallStateDidChange object:self userInfo:nil];
 }
 
+#if TARGET_OS_IPHONE
+
 - (void)setSelfVideoView:(UIView *)selfVideoView
 {
     if (selfVideoView != _selfVideoView)
@@ -431,6 +433,8 @@ NSString *const kMXCallStateDidChange = @"kMXCallStateDidChange";
         callStackCall.selfOrientation = selfOrientation;
     }
 }
+
+#endif
 
 - (BOOL)audioMuted
 {

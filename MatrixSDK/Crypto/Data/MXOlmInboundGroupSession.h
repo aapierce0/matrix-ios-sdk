@@ -20,7 +20,9 @@
 
 #ifdef MX_CRYPTO
 
+#if TARGET_OS_IPHONE
 #import <OLMKit/OLMKit.h>
+#endif
 
 /**
  The 'MXOlmInboundGroupSession' class adds more context to a OLMInboundGroupSession
@@ -42,7 +44,9 @@
 /**
  The associated olm inbound group session.
  */
+#if TARGET_OS_IPHONE
 @property (nonatomic, readonly) OLMInboundGroupSession *session;
+#endif
 
 /**
  The room in which this session is used.

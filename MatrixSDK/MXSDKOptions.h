@@ -34,7 +34,7 @@
      pod 'WebRTC'
  */
 
-#if __has_include(<WebRTC/RTCPeerConnection.h>)
+#if __has_include(<WebRTC/RTCPeerConnection.h>) && TARGET_OS_PHONE
 #define MX_CALL_STACK_JINGLE
 #endif
 
@@ -47,7 +47,7 @@
      pod 'OLMKit'
  */
 
-#if __has_include(<OLMKit/OLMKit.h>)
+#if __has_include(<OLMKit/OLMKit.h>) && TARGET_OS_IPHONE
 #define MX_CRYPTO
 #endif
 

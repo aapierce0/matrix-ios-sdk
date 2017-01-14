@@ -13,12 +13,12 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-#import <UIKit/UIKit.h>
 
 #import "MXJingleCallStack.h"
 
 #ifdef MX_CALL_STACK_JINGLE
 
+#import <UIKit/UIKit.h>
 #import <WebRTC/WebRTC.h>
 
 /**
