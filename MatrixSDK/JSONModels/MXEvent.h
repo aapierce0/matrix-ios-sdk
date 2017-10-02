@@ -247,12 +247,12 @@ extern NSString *const kMXEventIdentifierKey;
  If the event is encrypted and the decryption failed (check 'decryptionError' property),
   'type' will remain kMXEventTypeStringRoomEncrypted ("m.room.encrypted").
  */
-@property (nonatomic, readonly) MXEventTypeString type;
+@property (nonatomic, readonly) MXEventTypeString type NS_REFINED_FOR_SWIFT;
 
 /**
  The enum version of the 'type' property.
  */
-@property (nonatomic, readonly) MXEventType eventType;
+@property (nonatomic, readonly) MXEventType eventType NS_REFINED_FOR_SWIFT;
 
 /**
  The event (decrypted, if necessary) content.
@@ -274,12 +274,12 @@ extern NSString *const kMXEventIdentifierKey;
  Do not access this property directly unless you absolutely have to. Prefer to use the
  'eventType' property that manages decryption.
  */
-@property (nonatomic) MXEventTypeString wireType;
+@property (nonatomic) MXEventTypeString wireType NS_REFINED_FOR_SWIFT;
 
 /**
  The enum version of the 'wireType' property.
  */
-@property (nonatomic) MXEventType wireEventType;
+@property (nonatomic) MXEventType wireEventType NS_REFINED_FOR_SWIFT;
 
 /**
  The event (possibly encrypted) content.
