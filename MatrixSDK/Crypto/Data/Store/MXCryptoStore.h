@@ -26,6 +26,8 @@
 #import <OLMKit/OLMKit.h>
 #import "MXOlmInboundGroupSession.h"
 #import "MXDeviceInfo.h"
+#import "MXOutgoingRoomKeyRequest.h"
+#import "MXIncomingRoomKeyRequest.h"
 
 /**
  The `MXCryptoStore` protocol defines an interface that must be implemented in order to store
@@ -71,7 +73,7 @@
  @param onComplete the callback called once the data has been loaded.
  @param failure the callback called in case of error.
  */
-- (void)open:(void (^)())onComplete failure:(void (^)(NSError *error))failure;
+- (void)open:(void (^)(void))onComplete failure:(void (^)(NSError *error))failure;
 
 /**
  Store the device id.
@@ -92,16 +94,6 @@
  * Load the end to end account for the logged-in user.
  */
 - (OLMAccount*)account;
-
-/**
- Store a flag indicating that we have announced the new device.
- */
-- (void)storeDeviceAnnounced;
-
-/**
- Check if the "device announced" flag is set.
- */
-- (BOOL)deviceAnnounced;
 
 /**
  Store the sync token corresponding to the device list.
@@ -218,11 +210,85 @@
 /**
  Retrieve all inbound group sessions.
  
- @TODO: maybe too heavy.
- 
  @return the list of all inbound group sessions.
  */
 - (NSArray<MXOlmInboundGroupSession*> *)inboundGroupSessions;
+
+
+#pragma mark - Key sharing - Outgoing key requests
+
+/**
+ Look for existing outgoing room key request, and returns the result synchronously.
+
+ @param requestBody the existing request to look for.
+ @return a MXOutgoingRoomKeyRequest matching the request, or nil if not found.
+ */
+- (MXOutgoingRoomKeyRequest*)outgoingRoomKeyRequestWithRequestBody:(NSDictionary *)requestBody;
+
+/**
+ Look for the first outgoing key request that matches the state.
+
+ @param state to look for.
+ @return a MXOutgoingRoomKeyRequest matching the request, or nil if not found.
+ */
+- (MXOutgoingRoomKeyRequest*)outgoingRoomKeyRequestWithState:(MXRoomKeyRequestState)state;
+
+/**
+ Store an outgoing room key request.
+
+ @param request the room key request to store.
+ */
+- (void)storeOutgoingRoomKeyRequest:(MXOutgoingRoomKeyRequest*)request;
+
+/**
+ Update an outgoing room key request.
+
+ @request the room key request to update in the store.
+ */
+- (void)updateOutgoingRoomKeyRequest:(MXOutgoingRoomKeyRequest*)request;
+
+/**
+ Delete an outgoing room key request.
+
+ @param requestId the id of the request to delete.
+ */
+- (void)deleteOutgoingRoomKeyRequestWithRequestId:(NSString*)requestId;
+
+
+#pragma mark - Key sharing - Incoming key requests
+
+/**
+ Store an incoming room key request.
+
+ @param request the room key request to store.
+ */
+- (void)storeIncomingRoomKeyRequest:(MXIncomingRoomKeyRequest*)request;
+
+/**
+ Delete an incoming room key request.
+
+ @param requestId the id of the request to delete.
+ @param userId the user id.
+ @param deviceId the user's device id.
+ */
+- (void)deleteIncomingRoomKeyRequest:(NSString*)requestId fromUser:(NSString*)userId andDevice:(NSString*)deviceId;
+
+/**
+ Get an incoming room key request.
+
+ @param requestId the id of the request to retrieve.
+ @param userId the user id.
+ @param deviceId the user's device id.
+ @return a MXIncomingRoomKeyRequest matching the request, or nil if not found.
+ */
+- (MXIncomingRoomKeyRequest*)incomingRoomKeyRequestWithRequestId:(NSString*)requestId fromUser:(NSString*)userId andDevice:(NSString*)deviceId;
+
+/**
+ Get all incoming room key requests.
+
+ @return a map userId -> deviceId -> [MXIncomingRoomKeyRequest*].
+ */
+- (MXUsersDevicesMap<NSArray<MXIncomingRoomKeyRequest *> *> *)incomingRoomKeyRequests;
 
 
 #pragma mark - Crypto settings

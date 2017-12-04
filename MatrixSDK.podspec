@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "MatrixSDK"
-  s.version      = "0.9.2"
+  s.version      = "0.10.4"
   s.summary      = "The iOS SDK to build apps compatible with Matrix (https://www.matrix.org)"
 
   s.description  = <<-DESC
@@ -20,15 +20,12 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = "8.0"
   s.osx.deployment_target = "10.10"
 
-  s.source       = { :git => "https://github.com/matrix-org/matrix-ios-sdk.git", :tag => "v0.9.2" }
+  s.source       = { :git => "https://github.com/matrix-org/matrix-ios-sdk.git", :tag => "v0.10.4" }
   s.source_files = "MatrixSDK", "MatrixSDK/**/*.{h,m}"
-  s.resources    = "MatrixSDK/Data/Store/MXCoreDataStore/*.xcdatamodeld"
-
-  s.frameworks   = "CoreData"
 
   s.requires_arc  = true
 
   s.dependency 'AFNetworking', '~> 3.1.0'
-  s.dependency 'GZIP', '~> 1.1.1'
+  s.dependency 'GZIP', '~> 1.2.1'
 
 end

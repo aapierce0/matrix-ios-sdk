@@ -21,6 +21,7 @@
 #ifdef MX_CRYPTO
 
 #import "MXCryptoStore.h"
+#import "MXSession.h"
 #import "MXRestClient.h"
 #import "MXOlmDevice.h"
 #import "MXDeviceList.h"
@@ -46,6 +47,11 @@
   The libolm wrapper.
  */
 @property (nonatomic, readonly) MXOlmDevice *olmDevice;
+
+/**
+ The Matrix session.
+ */
+@property (nonatomic, readonly) MXSession *mxSession;
 
 /**
   The instance used to make requests to the homeserver.
@@ -130,6 +136,36 @@
  @return the content for an m.room.encrypted event.
  */
 - (NSDictionary*)encryptMessage:(NSDictionary*)payloadFields forDevices:(NSArray<MXDeviceInfo*>*)devices;
+
+/**
+ Get a decryptor for a given room and algorithm.
+
+ If we already have a decryptor for the given room and algorithm, return
+ it. Otherwise try to instantiate it.
+
+ @param roomId room id for decryptor. If undefined, a temporary decryptor is instantiated.
+ @param algorithm the crypto algorithm.
+ @return the decryptor.
+ */
+- (id<MXDecrypting>)getRoomDecryptor:(NSString*)roomId algorithm:(NSString*)algorithm;
+
+
+#pragma mark - Key sharing
+
+/**
+ Send a request for some room keys, if we have not already done so.
+
+ @param requestBody the requestBody.
+ @param recipients a {Array<{userId: string, deviceId: string}>}.
+ */
+- (void)requestRoomKey:(NSDictionary*)requestBody recipients:(NSArray<NSDictionary<NSString*, NSString*>*>*)recipients;
+
+/**
+ Cancel any earlier room key request.
+
+ @param requestBody parameters to match for cancellation
+ */
+- (void)cancelRoomKeyRequest:(NSDictionary*)requestBody;
 
 @end
 

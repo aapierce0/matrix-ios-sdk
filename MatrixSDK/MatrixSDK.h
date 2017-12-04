@@ -30,7 +30,6 @@ FOUNDATION_EXPORT NSString *MatrixSDKVersion;
 #import "MXNoStore.h"
 #import "MXMemoryStore.h"
 #import "MXFileStore.h"
-#import "MXCoreDataStore.h"
 
 #import "MXRoomSummaryUpdater.h"
 
@@ -54,3 +53,6 @@ FOUNDATION_EXPORT NSString *MatrixSDKVersion;
 #import "MXMegolmExportEncryption.h"
 
 #import "MXBugReportRestClient.h"
+
+#import "MXCallKitAdapter.h"
+#import "MXCallKitConfiguration.h"

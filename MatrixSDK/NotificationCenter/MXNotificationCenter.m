@@ -20,6 +20,7 @@
 #import "MXPushRuleEventMatchConditionChecker.h"
 #import "MXPushRuleDisplayNameCondtionChecker.h"
 #import "MXPushRuleRoomMemberCountConditionChecker.h"
+#import "MXPushRuleSenderNotificationPermissionConditionChecker.h"
 
 NSString *const kMXNotificationCenterWillUpdateRules = @"kMXNotificationCenterWillUpdateRules";
 NSString *const kMXNotificationCenterDidUpdateRules = @"kMXNotificationCenterDidUpdateRules";
@@ -86,6 +87,8 @@ NSString *const kMXNotificationCenterAllOtherRoomMessagesRuleID = @".m.rule.mess
         MXPushRuleRoomMemberCountConditionChecker *roomMemberCountConditionChecker = [[MXPushRuleRoomMemberCountConditionChecker alloc] initWithMatrixSession:mxSession];
         [self setChecker:roomMemberCountConditionChecker forConditionKind:kMXPushRuleConditionStringRoomMemberCount];
 
+        MXPushRuleSenderNotificationPermissionConditionChecker *notificationPermissionConditionChecker = [[MXPushRuleSenderNotificationPermissionConditionChecker alloc] initWithMatrixSession:mxSession];
+        [self setChecker:notificationPermissionConditionChecker forConditionKind:kMXPushRuleConditionStringSenderNotificationPermission];
 
         // Catch all live events sent from other users to check if we need to notify them
         [mxSession listenToEvents:^(MXEvent *event, MXTimelineDirection direction, id customObject) {
@@ -100,7 +103,7 @@ NSString *const kMXNotificationCenterAllOtherRoomMessagesRuleID = @".m.rule.mess
     return self;
 }
 
-- (MXHTTPOperation *)refreshRules:(void (^)())success failure:(void (^)(NSError *))failure
+- (MXHTTPOperation *)refreshRules:(void (^)(void))success failure:(void (^)(NSError *))failure
 {
     return [mxSession.matrixRestClient pushRules:^(MXPushRulesResponse *pushRules) {
 

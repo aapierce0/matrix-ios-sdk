@@ -42,6 +42,13 @@
 + (NSString*)generateSecret;
 
 /**
+ Generate a random transaction id.
+
+ @return the transaction id.
+ */
++ (NSString*)generateTransactionId;
+
+/**
  Removing new line characters from NSString.
  The new line characters are replaced with a space character.
  Only one space is used to replace successive new line characters spaced or not.
@@ -172,6 +179,24 @@ FOUNDATION_EXPORT NSString *const kMXToolsRegexStringForMatrixEventIdentifier;
  */
 + (void)convertVideoToMP4:(NSURL*)videoLocalURL
                   success:(void(^)(NSURL *videoLocalURL, NSString *mimetype, CGSize size, double durationInMs))success
-                  failure:(void(^)())failure;
+                  failure:(void(^)(void))failure;
+
+#pragma mark - JSON Serialisation
+
+/**
+ Convert a JSON object (NSArray, NSDictionary) into a JSON string.
+
+ @param jsonObject the object to convert.
+ @return the string corresponding to the JSON object.
+ */
++ (NSString*)serialiseJSONObject:(id)jsonObject;
+
+/**
+ Convert back a string into a JSON object.
+
+ @param jsonString the string corresponding to the JSON object.
+ @return a JSON object.
+ */
++ (id)deserialiseJSONString:(NSString*)jsonString;
 
 @end

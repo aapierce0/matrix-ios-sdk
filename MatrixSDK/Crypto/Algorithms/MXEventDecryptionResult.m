@@ -1,5 +1,5 @@
 /*
- Copyright 2015 OpenMarket Ltd
+ Copyright 2017 Vector Creations Ltd
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -14,23 +14,8 @@
  limitations under the License.
  */
 
-#import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
+#import "MXEventDecryptionResult.h"
 
-#import "MXCoreDataRoom.h"
-
-#ifdef MXCOREDATA_STORE
-
-NS_ASSUME_NONNULL_BEGIN
-
-@interface MXCoreDataAccount : NSManagedObject
-
-// Insert code here to declare functionality of your managed object subclass
+@implementation MXEventDecryptionResult
 
 @end
-
-NS_ASSUME_NONNULL_END
-
-#import "MXCoreDataAccount+CoreDataProperties.h"
-
-#endif // MXCOREDATA_STORE

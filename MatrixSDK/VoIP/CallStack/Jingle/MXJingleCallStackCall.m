@@ -80,19 +80,19 @@
     return self;
 }
 
-- (void)startCapturingMediaWithVideo:(BOOL)video success:(void (^)())success failure:(void (^)(NSError *))failure
+- (void)startCapturingMediaWithVideo:(BOOL)video success:(void (^)(void))success failure:(void (^)(NSError *))failure
 {
     onStartCapturingMediaWithVideoSuccess = success;
     isVideoCall = video;
 
-    // Video requires views to render to before calling startGetCaptureSourcesForAudio
+    // Video requires views to render to before calling createLocalMediaStream
     if (!video || (selfVideoView && remoteVideoView))
     {
         [self createLocalMediaStream];
     }
     else
     {
-        NSLog(@"[MXJingleCallStackCall] Wait for the setting of selfVideoView and remoteVideoView before calling startGetCaptureSourcesForAudio");
+        NSLog(@"[MXJingleCallStackCall] Wait for the setting of selfVideoView and remoteVideoView before calling createLocalMediaStream");
     }
 }
 
@@ -100,6 +100,11 @@
 {
     [peerConnection close];
     peerConnection = nil;
+    
+    // Reset RTC tracks, a latency was observed on avFoundationVideoSourceWithConstraints call when localVideoTrack was not reseted.
+    localAudioTrack = nil;
+    localVideoTrack = nil;
+    remoteVideoTrack = nil;
 
     self.selfVideoView = nil;
     self.remoteVideoView = nil;
@@ -151,7 +156,7 @@
 
 
 #pragma mark - Incoming call
-- (void)handleOffer:(NSString *)sdpOffer success:(void (^)())success failure:(void (^)(NSError *error))failure
+- (void)handleOffer:(NSString *)sdpOffer success:(void (^)(void))success failure:(void (^)(NSError *error))failure
 {
     RTCSessionDescription *sessionDescription = [[RTCSessionDescription alloc] initWithType:RTCSdpTypeOffer sdp:sdpOffer];
     [peerConnection setRemoteDescription:sessionDescription completionHandler:^(NSError * _Nullable error) {
@@ -249,7 +254,7 @@
     }];
 }
 
-- (void)handleAnswer:(NSString *)sdp success:(void (^)())success failure:(void (^)(NSError *))failure
+- (void)handleAnswer:(NSString *)sdp success:(void (^)(void))success failure:(void (^)(NSError *))failure
 {
     RTCSessionDescription *sessionDescription = [[RTCSessionDescription alloc] initWithType:RTCSdpTypeAnswer sdp:sdp];
     [peerConnection setRemoteDescription:sessionDescription completionHandler:^(NSError * _Nullable error) {
@@ -361,6 +366,8 @@ didChangeIceGatheringState:(RTCIceGatheringState)newState
 - (void)peerConnection:(RTCPeerConnection *)peerConnection
 didGenerateIceCandidate:(RTCIceCandidate *)candidate
 {
+    NSLog(@"[MXJingleCallStackCall] didGenerateIceCandidate: %@", candidate);
+
     // Forward found ICE candidates
     dispatch_async(dispatch_get_main_queue(), ^{
         
@@ -374,7 +381,6 @@ didGenerateIceCandidate:(RTCIceCandidate *)candidate
 didRemoveIceCandidates:(NSArray<RTCIceCandidate *> *)candidates;
 {
     NSLog(@"[MXJingleCallStackCall] didRemoveIceCandidates");
-
 }
 
 // New data channel has been opened.
@@ -532,7 +538,7 @@ didRemoveIceCandidates:(NSArray<RTCIceCandidate *> *)candidates;
 {
     if (onStartCapturingMediaWithVideoSuccess && selfVideoView && remoteVideoView)
     {
-        NSLog(@"[MXJingleCallStackCall] selfVideoView and remoteVideoView are set. Call startGetCaptureSourcesForAudio");
+        NSLog(@"[MXJingleCallStackCall] selfVideoView and remoteVideoView are set. Call createLocalMediaStream");
 
         [self createLocalMediaStream];
     }

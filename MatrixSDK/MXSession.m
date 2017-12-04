@@ -39,7 +39,7 @@
 
 #pragma mark - Constants definitions
 
-const NSString *MatrixSDKVersion = @"0.9.2";
+const NSString *MatrixSDKVersion = @"0.10.4";
 NSString *const kMXSessionStateDidChangeNotification = @"kMXSessionStateDidChangeNotification";
 NSString *const kMXSessionNewRoomNotification = @"kMXSessionNewRoomNotification";
 NSString *const kMXSessionWillLeaveRoomNotification = @"kMXSessionWillLeaveRoomNotification";
@@ -47,12 +47,16 @@ NSString *const kMXSessionDidLeaveRoomNotification = @"kMXSessionDidLeaveRoomNot
 NSString *const kMXSessionDidSyncNotification = @"kMXSessionDidSyncNotification";
 NSString *const kMXSessionInvitedRoomsDidChangeNotification = @"kMXSessionInvitedRoomsDidChangeNotification";
 NSString *const kMXSessionOnToDeviceEventNotification = @"kMXSessionOnToDeviceEventNotification";
-NSString *const kMXSessionNotificationRoomIdKey = @"roomId";
-NSString *const kMXSessionNotificationEventKey = @"event";
 NSString *const kMXSessionIgnoredUsersDidChangeNotification = @"kMXSessionIgnoredUsersDidChangeNotification";
 NSString *const kMXSessionDirectRoomsDidChangeNotification = @"kMXSessionDirectRoomsDidChangeNotification";
 NSString *const kMXSessionDidCorruptDataNotification = @"kMXSessionDidCorruptDataNotification";
 NSString *const kMXSessionCryptoDidCorruptDataNotification = @"kMXSessionCryptoDidCorruptDataNotification";
+
+NSString *const kMXSessionNotificationRoomIdKey = @"roomId";
+NSString *const kMXSessionNotificationEventKey = @"event";
+NSString *const kMXSessionNotificationSyncResponseKey = @"syncResponse";
+NSString *const kMXSessionNotificationErrorKey = @"error";
+
 NSString *const kMXSessionNoRoomTag = @"m.recent";  // Use the same value as matrix-react-sdk
 
 /**
@@ -232,7 +236,7 @@ typedef void (^MXOnResumeDone)();
     }
 }
 
--(void)setStore:(id<MXStore>)store success:(void (^)())onStoreDataReady failure:(void (^)(NSError *))failure
+-(void)setStore:(id<MXStore>)store success:(void (^)(void))onStoreDataReady failure:(void (^)(NSError *))failure
 {
     NSAssert(MXSessionStateInitialised == _state, @"Store can be set only just after initialisation");
     NSParameterAssert(store);
@@ -271,7 +275,7 @@ typedef void (^MXOnResumeDone)();
             }
 
             // Can we start on data from the MXStore?
-            if (_store.isPermanent && _store.eventStreamToken && 0 < _store.rooms.count)
+            if (_store.isPermanent && self.isEventStreamInitialised && 0 < _store.rooms.count)
             {
                 // Mount data from the permanent store
                 NSLog(@"[MXSession] Loading room state events to build MXRoom objects...");
@@ -351,14 +355,14 @@ typedef void (^MXOnResumeDone)();
     }];
 }
 
-- (void)start:(void (^)())onServerSyncDone
+- (void)start:(void (^)(void))onServerSyncDone
       failure:(void (^)(NSError *error))failure
 {
     [self startWithMessagesLimit:-1 onServerSyncDone:onServerSyncDone failure:failure];
 }
 
 - (void)startWithMessagesLimit:(NSUInteger)messagesLimit
-              onServerSyncDone:(void (^)())onServerSyncDone
+              onServerSyncDone:(void (^)(void))onServerSyncDone
                        failure:(void (^)(NSError *error))failure
 {
     if (nil == _store)
@@ -391,23 +395,27 @@ typedef void (^MXOnResumeDone)();
     syncMessagesLimit = messagesLimit;
 
     // Can we resume from data available in the cache
-    if (_store.isPermanent && _store.eventStreamToken && 0 < _store.rooms.count)
+    if (_store.isPermanent && self.isEventStreamInitialised && 0 < _store.rooms.count)
     {
-        // Resume the stream (presence will be retrieved during server sync)
-        NSLog(@"[MXSession] Resuming the events stream from %@...", _store.eventStreamToken);
-        NSDate *startDate2 = [NSDate date];
-        [self resume:^{
-            NSLog(@"[MXSession] Events stream resumed in %.0fms", [[NSDate date] timeIntervalSinceDate:startDate2] * 1000);
+        // Start crypto if enabled
+        [self startCrypto:^{
 
-            // Start crypto if enabled
-            [self startCrypto:onServerSyncDone failure:^(NSError *error) {
+            // Resume the stream (presence will be retrieved during server sync)
+            NSLog(@"[MXSession] Resuming the events stream from %@...", _store.eventStreamToken);
+            NSDate *startDate2 = [NSDate date];
+            [self resume:^{
+                NSLog(@"[MXSession] Events stream resumed in %.0fms", [[NSDate date] timeIntervalSinceDate:startDate2] * 1000);
 
-                NSLog(@"[MXSession] Crypto failed to start. Error: %@", error);
-
-                [self setState:MXSessionStateInitialSyncFailed];
-                failure(error);
-
+                onServerSyncDone();
             }];
+
+        }  failure:^(NSError *error) {
+
+            NSLog(@"[MXSession] Crypto failed to start. Error: %@", error);
+
+            [self setState:MXSessionStateInitialSyncFailed];
+            failure(error);
+
         }];
     }
     else
@@ -425,27 +433,27 @@ typedef void (^MXOnResumeDone)();
             // And store him as a common MXUser
             [_store storeUser:_myUser];
 
-            NSLog(@"[MXSession] Do an initial /sync");
+            // Start crypto if enabled
+            [self startCrypto:^{
 
-            // Initial server sync
-            [self serverSyncWithServerTimeout:0 success:^{
+                NSLog(@"[MXSession] Do an initial /sync");
 
-                // Start crypto if enabled
-                [self startCrypto:onServerSyncDone failure:^(NSError *error) {
-
-                    NSLog(@"[MXSession] Crypto failed to start. Error: %@", error);
+                // Initial server sync
+                [self serverSyncWithServerTimeout:0 success:onServerSyncDone failure:^(NSError *error) {
 
                     [self setState:MXSessionStateInitialSyncFailed];
                     failure(error);
 
-                }];
+                } clientTimeout:CLIENT_TIMEOUT_MS setPresence:nil];
 
             } failure:^(NSError *error) {
+
+                NSLog(@"[MXSession] Crypto failed to start. Error: %@", error);
 
                 [self setState:MXSessionStateInitialSyncFailed];
                 failure(error);
 
-            } clientTimeout:CLIENT_TIMEOUT_MS setPresence:nil];
+            }];
 
         } failure:^(NSError *error) {
             
@@ -459,32 +467,32 @@ typedef void (^MXOnResumeDone)();
 - (void)pause
 {
     NSLog(@"[MXSession] pause the event stream in state %tu", _state);
-
-    // Check that none required the session to keep running even if the app goes in
-    // background
-    if (_preventPauseCount)
-    {
-        NSLog(@"[MXSession pause] Prevent the session from being paused. preventPauseCount: %tu", _preventPauseCount);
-
-        id<MXBackgroundModeHandler> handler = [MXSDKOptions sharedInstance].backgroundModeHandler;
-        if (handler && backgroundTaskIdentifier == [handler invalidIdentifier])
-        {
-            backgroundTaskIdentifier = [handler startBackgroundTaskWithName:@"MXSessionBackgroundTask" completion:^{
-                NSLog(@"[MXSession pause] Background task #%tu is going to expire - ending it", backgroundTaskIdentifier);
-
-                // We cannot continue to run in background. Pause the session for real
-                self.preventPauseCount = 0;
-            }];
-            NSLog(@"[MXSession pause] Created background task #%tu", backgroundTaskIdentifier);
-        }
-
-        [self setState:MXSessionStatePauseRequested];
-
-        return;
-    }
     
     if ((_state == MXSessionStateRunning) || (_state == MXSessionStateBackgroundSyncInProgress))
     {
+        // Check that none required the session to keep running even if the app goes in
+        // background
+        if (_preventPauseCount)
+        {
+            NSLog(@"[MXSession pause] Prevent the session from being paused. preventPauseCount: %tu", _preventPauseCount);
+            
+            id<MXBackgroundModeHandler> handler = [MXSDKOptions sharedInstance].backgroundModeHandler;
+            if (handler && backgroundTaskIdentifier == [handler invalidIdentifier])
+            {
+                backgroundTaskIdentifier = [handler startBackgroundTaskWithName:@"MXSessionBackgroundTask" completion:^{
+                    NSLog(@"[MXSession pause] Background task #%tu is going to expire - ending it", backgroundTaskIdentifier);
+                    
+                    // We cannot continue to run in background. Pause the session for real
+                    self.preventPauseCount = 0;
+                }];
+                NSLog(@"[MXSession pause] Created background task #%tu", backgroundTaskIdentifier);
+            }
+            
+            [self setState:MXSessionStatePauseRequested];
+            
+            return;
+        }
+        
         // reset the callback
         onResumeDone = nil;
         onBackgroundSyncDone = nil;
@@ -503,7 +511,7 @@ typedef void (^MXOnResumeDone)();
     }
 }
 
-- (void)resume:(void (^)())resumeDone
+- (void)resume:(void (^)(void))resumeDone
 {
     NSLog(@"[MXSession] resume the event stream from state %tu", _state);
 
@@ -640,7 +648,7 @@ typedef void (^MXOnResumeDone)();
     // Stop crypto
     if (_crypto)
     {
-        [_crypto close];
+        [_crypto close:NO];
         _crypto = nil;
     }
 
@@ -658,17 +666,35 @@ typedef void (^MXOnResumeDone)();
     [self setState:MXSessionStateClosed];
 }
 
-- (MXHTTPOperation*)logout:(void (^)())success
+- (MXHTTPOperation*)logout:(void (^)(void))success
                    failure:(void (^)(NSError *error))failure
 {
+    // Create an empty operation that will be mutated later
+    MXHTTPOperation *operation = [[MXHTTPOperation alloc] init];
+
     // Clear crypto data
     // For security and because it will be no more useful as we will get a new device id
     // on the next log in
-    [self enableCrypto:NO success:nil failure:nil];
+    __weak typeof(self) weakSelf = self;
+    [self enableCrypto:NO success:^{
 
-    return [self.matrixRestClient logout:success failure:failure];
+        if (weakSelf && !operation.isCancelled)
+        {
+            __strong __typeof(weakSelf) self = weakSelf;
+
+            MXHTTPOperation *operation2 = [self.matrixRestClient logout:success failure:failure];
+            [operation mutateTo:operation2];
+        }
+
+    } failure:nil];
+
+    return operation;
 }
 
+- (BOOL)isEventStreamInitialised
+{
+    return (_store.eventStreamToken != nil);
+}
 
 #pragma mark - MXSession pause prevention
 - (void)retainPreventPause
@@ -718,7 +744,7 @@ typedef void (^MXOnResumeDone)();
 #pragma mark - Server sync
 
 - (void)serverSyncWithServerTimeout:(NSUInteger)serverTimeout
-                            success:(void (^)())success
+                            success:(void (^)(void))success
                             failure:(void (^)(NSError *error))failure
                       clientTimeout:(NSUInteger)clientTimeout
                         setPresence:(NSString*)setPresence
@@ -749,10 +775,10 @@ typedef void (^MXOnResumeDone)();
         NSUInteger nextServerTimeout = SERVER_TIMEOUT_MS;
 
         NSTimeInterval duration = [[NSDate date] timeIntervalSinceDate:startDate];
-        NSLog(@"[MXSession] Received %tu joined rooms, %tu invited rooms, %tu left rooms in %.0fms", syncResponse.rooms.join.count, syncResponse.rooms.invite.count, syncResponse.rooms.leave.count, duration * 1000);
+        NSLog(@"[MXSession] Received %tu joined rooms, %tu invited rooms, %tu left rooms, %tu toDevice events in %.0fms", syncResponse.rooms.join.count, syncResponse.rooms.invite.count, syncResponse.rooms.leave.count, syncResponse.toDevice.events.count, duration * 1000);
 
         // Check whether this is the initial sync
-        BOOL isInitialSync = !_store.eventStreamToken;
+        BOOL isInitialSync = !self.isEventStreamInitialised;
 
         if (!firstSyncDone)
         {
@@ -898,12 +924,24 @@ typedef void (^MXOnResumeDone)();
                                                               userInfo:nil];
         }
 
-        // Handle crypto sync data
+        // Handle device list updates
         if (_crypto && syncResponse.deviceLists)
         {
-            [_crypto handleDeviceListsChanges:syncResponse.deviceLists
-                                 oldSyncToken:_store.eventStreamToken
-                                nextSyncToken:syncResponse.nextBatch];
+            [_crypto handleDeviceListsChanges:syncResponse.deviceLists];
+        }
+
+        // Handle one_time_keys_count
+        if (_crypto && syncResponse.deviceOneTimeKeysCount)
+        {
+            [_crypto handleDeviceOneTimeKeysCount:syncResponse.deviceOneTimeKeysCount];
+        }
+
+        // Tell the crypto module to do its processing
+        if (_crypto)
+        {
+            [_crypto onSyncCompleted:_store.eventStreamToken
+                       nextSyncToken:syncResponse.nextBatch
+                          catchingUp:_catchingUp];
         }
 
         // Update live event stream token
@@ -936,10 +974,19 @@ typedef void (^MXOnResumeDone)();
             // check that the application was not resumed while catching up in background
             if (_state == MXSessionStateBackgroundSyncInProgress)
             {
-                NSLog(@"[MXSession] go to paused ");
-                eventStreamRequest = nil;
-                [self setState:MXSessionStatePaused];
-                return;
+                // Check that none required the session to keep running
+                if (_preventPauseCount)
+                {
+                    // Delay the pause by calling the reliable `pause` method.
+                    [self pause];
+                }
+                else
+                {
+                    NSLog(@"[MXSession] go to paused ");
+                    eventStreamRequest = nil;
+                    [self setState:MXSessionStatePaused];
+                    return;
+                }
             }
             else
             {
@@ -985,7 +1032,9 @@ typedef void (^MXOnResumeDone)();
         // Broadcast that a server sync has been processed.
         [[NSNotificationCenter defaultCenter] postNotificationName:kMXSessionDidSyncNotification
                                                             object:self
-                                                          userInfo:nil];
+                                                          userInfo:@{
+                                                                     kMXSessionNotificationSyncResponseKey: syncResponse
+                                                                     }];
         
         if (success)
         {
@@ -1035,10 +1084,19 @@ typedef void (^MXOnResumeDone)();
             // check that the application was not resumed while catching up in background
             if (_state == MXSessionStateBackgroundSyncInProgress)
             {
-                NSLog(@"[MXSession] go to paused ");
-                eventStreamRequest = nil;
-                [self setState:MXSessionStatePaused];
-                return;
+                // Check that none required the session to keep running
+                if (_preventPauseCount)
+                {
+                    // Delay the pause by calling the reliable `pause` method.
+                    [self pause];
+                }
+                else
+                {
+                    NSLog(@"[MXSession] go to paused ");
+                    eventStreamRequest = nil;
+                    [self setState:MXSessionStatePaused];
+                    return;
+                }
             }
             else
             {
@@ -1071,7 +1129,9 @@ typedef void (^MXOnResumeDone)();
                 // Notify the reconnection attempt has been done.
                 [[NSNotificationCenter defaultCenter] postNotificationName:kMXSessionDidSyncNotification
                                                                     object:self
-                                                                  userInfo:nil];
+                                                                  userInfo:@{
+                                                                             kMXSessionNotificationErrorKey: error
+                                                                             }];
                 
                 // Switch back to the long poll management
                 [self serverSyncWithServerTimeout:SERVER_TIMEOUT_MS success:nil failure:nil clientTimeout:CLIENT_TIMEOUT_MS setPresence:nil];
@@ -1142,7 +1202,7 @@ typedef void (^MXOnResumeDone)();
 {
     if (accountDataUpdate && accountDataUpdate[@"events"] && ((NSArray*)accountDataUpdate[@"events"]).count)
     {
-        BOOL isInitialSync = !_store.eventStreamToken || _state == MXSessionStateInitialised;
+        BOOL isInitialSync = !self.isEventStreamInitialised || _state == MXSessionStateInitialised;
         
         // Turn on by default the direct chats synthesizing at the initial sync
         shouldSynthesizeDirectChats = isInitialSync;
@@ -1275,7 +1335,7 @@ typedef void (^MXOnResumeDone)();
     _callManager = [[MXCallManager alloc] initWithMatrixSession:self andCallStack:callStack];
 }
 
-- (void)enableCrypto:(BOOL)enableCrypto success:(void (^)())success failure:(void (^)(NSError *))failure
+- (void)enableCrypto:(BOOL)enableCrypto success:(void (^)(void))success failure:(void (^)(NSError *))failure
 {
     NSLog(@"[MXSesion] enableCrypto: %@", @(enableCrypto));
 
@@ -1299,11 +1359,10 @@ typedef void (^MXOnResumeDone)();
     }
     else if (!enableCrypto && _crypto)
     {
-        [_crypto close];
+        // Erase all crypto data of this user
+        [_crypto close:YES];
         _crypto = nil;
 
-        // Erase all crypto data of this user
-        [MXCrypto deleteStoreWithCredentials:matrixRestClient.credentials];
         if (success)
         {
             success();
@@ -1558,7 +1617,7 @@ typedef void (^MXOnResumeDone)();
 }
 
 - (MXHTTPOperation*)leaveRoom:(NSString*)roomId
-                      success:(void (^)())success
+                      success:(void (^)(void))success
                       failure:(void (^)(NSError *error))failure
 {
     return [matrixRestClient leaveRoom:roomId success:^{
@@ -1651,7 +1710,7 @@ typedef void (^MXOnResumeDone)();
     return nil;
 }
 
-- (MXHTTPOperation*)uploadDirectRooms:(void (^)())success
+- (MXHTTPOperation*)uploadDirectRooms:(void (^)(void))success
                               failure:(void (^)(NSError *error))failure
 {
     __weak typeof(self) weakSelf = self;
@@ -1934,7 +1993,7 @@ typedef void (^MXOnResumeDone)();
 }
 
 - (MXHTTPOperation*)ignoreUsers:(NSArray<NSString*>*)userIds
-                       success:(void (^)())success
+                       success:(void (^)(void))success
                        failure:(void (^)(NSError *error))failure
 {
     // Create the new account data subset for m.ignored_user_list
@@ -1978,7 +2037,7 @@ typedef void (^MXOnResumeDone)();
     } failure:failure];
 }
 
-- (MXHTTPOperation *)unIgnoreUsers:(NSArray<NSString *> *)userIds success:(void (^)())success failure:(void (^)(NSError *))failure
+- (MXHTTPOperation *)unIgnoreUsers:(NSArray<NSString *> *)userIds success:(void (^)(void))success failure:(void (^)(NSError *))failure
 {
     // Create the new account data subset for m.ignored_user_list
     // by substracting userIds
@@ -2317,7 +2376,7 @@ typedef void (^MXOnResumeDone)();
  @param success a block called in any case when the operation completes.
  @param failure a block object called when the operation fails.
  */
-- (void)startCrypto:(void (^)())success
+- (void)startCrypto:(void (^)(void))success
             failure:(void (^)(NSError *error))failure
 {
     NSLog(@"[MXSession] Start crypto");
@@ -2335,25 +2394,36 @@ typedef void (^MXOnResumeDone)();
 
 - (BOOL)decryptEvent:(MXEvent*)event inTimeline:(NSString*)timeline
 {
-    BOOL result = NO;
+    MXEventDecryptionResult *result;
     if (event.eventType == MXEventTypeRoomEncrypted)
     {
+        NSError *error;
         if (_crypto)
         {
-            result = [_crypto decryptEvent:event inTimeline:timeline];
+            // TODO: One day, this method will be async
+            result = [_crypto decryptEvent:event inTimeline:timeline error:&error];
+            if (result)
+            {
+                [event setClearData:result];
+            }
         }
         else
         {
             // Encryption not enabled
-            event.decryptionError = [NSError errorWithDomain:MXDecryptingErrorDomain
-                                                        code:MXDecryptingErrorEncryptionNotEnabledCode
-                                                    userInfo:@{
-                                                               NSLocalizedDescriptionKey: MXDecryptingErrorEncryptionNotEnabledReason
-                                                               }];
+            error = [NSError errorWithDomain:MXDecryptingErrorDomain
+                                        code:MXDecryptingErrorEncryptionNotEnabledCode
+                                    userInfo:@{
+                                               NSLocalizedDescriptionKey: MXDecryptingErrorEncryptionNotEnabledReason
+                                               }];
+        }
+
+        if (error)
+        {
+            event.decryptionError = error;
         }
     }
 
-    return result;
+    return (result != nil);
 }
 
 - (void)resetReplayAttackCheckInTimeline:(NSString*)timeline

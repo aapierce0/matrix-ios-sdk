@@ -1,5 +1,5 @@
 /*
- Copyright 2016 OpenMarket Ltd
+ Copyright 2017 OpenMarket Ltd
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -16,25 +16,30 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MXFileCryptoStoreMetaData : NSObject <NSCoding>
+#import "MXEvent.h"
+
+@interface MXIncomingRoomKeyRequestCancellation : NSObject
 
 /**
- The obtained user id.
+ The user requesting the cancellation.
  */
-@property (nonatomic) NSString *userId;
+@property (nonatomic, readonly) NSString *userId;
 
 /**
- The access token to create a MXRestClient.
+ The device requesting the cancellation.
  */
-@property (nonatomic) NSString *deviceId;
+@property (nonatomic, readonly) NSString *deviceId;
 
 /**
- The current version of the store.
+ The unique id for the request to be cancelled.
  */
-@property (nonatomic) NSUInteger version;
+@property (nonatomic, readonly) NSString *requestId;
 
 /**
+ Create the `MXIncomingRoomKeyRequestCancellation` object from a Matrix m.room_key_request event.
+
+ @param event The m.room_key_request event.
  */
-@property (nonatomic) BOOL deviceAnnounced;
+- (instancetype)initWithMXEvent:(MXEvent*)event;
 
 @end

@@ -42,6 +42,8 @@ static NSRegularExpression *isMatrixRoomAliasRegex;
 static NSRegularExpression *isMatrixRoomIdentifierRegex;
 static NSRegularExpression *isMatrixEventIdentifierRegex;
 
+static NSUInteger transactionIdCount;
+
 
 @implementation MXTools
 
@@ -66,6 +68,8 @@ static NSRegularExpression *isMatrixEventIdentifierRegex;
                                 kMXEventTypeStringRoomGuestAccess,
                                 kMXEventTypeStringRoomHistoryVisibility,
                                 kMXEventTypeStringRoomKey,
+                                kMXEventTypeStringRoomForwardedKey,
+                                kMXEventTypeStringRoomKeyRequest,
                                 kMXEventTypeStringRoomMessage,
                                 kMXEventTypeStringRoomMessageFeedback,
                                 kMXEventTypeStringRoomPlumbing,
@@ -77,7 +81,6 @@ static NSRegularExpression *isMatrixEventIdentifierRegex;
                                 kMXEventTypeStringReceipt,
                                 kMXEventTypeStringRead,
                                 kMXEventTypeStringReadMarker,
-                                kMXEventTypeStringNewDevice,
                                 kMXEventTypeStringCallInvite,
                                 kMXEventTypeStringCallCandidates,
                                 kMXEventTypeStringCallAnswer,
@@ -102,6 +105,8 @@ static NSRegularExpression *isMatrixEventIdentifierRegex;
                                                                                 options:NSRegularExpressionCaseInsensitive error:nil];
         isMatrixEventIdentifierRegex = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"^%@$", kMXToolsRegexStringForMatrixEventIdentifier]
                                                                                  options:NSRegularExpressionCaseInsensitive error:nil];
+
+        transactionIdCount = 0;
     });
 }
 
@@ -200,6 +205,11 @@ static NSRegularExpression *isMatrixEventIdentifierRegex;
 + (NSString *)generateSecret
 {
     return [[NSProcessInfo processInfo] globallyUniqueString];
+}
+
++ (NSString *)generateTransactionId
+{
+    return [NSString stringWithFormat:@"m%tu.%tu", arc4random_uniform(INT32_MAX), transactionIdCount++];
 }
 
 + (NSString*)stripNewlineCharacters:(NSString *)inputString
@@ -495,7 +505,7 @@ static NSMutableDictionary *fileExtensionByContentType = nil;
 
 + (void)convertVideoToMP4:(NSURL*)videoLocalURL
                   success:(void(^)(NSURL *videoLocalURL, NSString *mimetype, CGSize size, double durationInMs))success
-                  failure:(void(^)())failure
+                  failure:(void(^)(void))failure
 {
     NSParameterAssert(success);
     NSParameterAssert(failure);
@@ -586,6 +596,26 @@ static NSMutableDictionary *fileExtensionByContentType = nil;
         });
         
     }];
+}
+
+#pragma mark - JSON Serialisation
+
++ (NSString*)serialiseJSONObject:(id)jsonObject
+{
+    NSString *jsonString;
+
+    if ([NSJSONSerialization isValidJSONObject:jsonObject])
+    {
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonObject options:0 error:nil];
+        jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+    return jsonString;
+}
+
++ (id)deserialiseJSONString:(NSString*)jsonString
+{
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    return [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
 }
 
 @end

@@ -143,6 +143,10 @@ FOUNDATION_EXPORT NSString *const kMXSessionDidLeaveRoomNotification;
 
 /**
  Posted when MXSession has performed a server sync.
+
+ The passed userInfo dictionary contains:
+ - `kMXSessionNotificationSyncResponseKey` the server response, a `MXSyncResponse` object.
+ - `kMXSessionNotificationErrorKey` the error if any.
  */
 FOUNDATION_EXPORT NSString *const kMXSessionDidSyncNotification;
 
@@ -165,18 +169,6 @@ FOUNDATION_EXPORT NSString *const kMXSessionInvitedRoomsDidChangeNotification;
  - `kMXSessionNotificationEventKey` the to-device MXEvent.
  */
 FOUNDATION_EXPORT NSString *const kMXSessionOnToDeviceEventNotification;
-
-
-#pragma mark - Notifications keys
-/**
- The key in notification userInfo dictionary representating the roomId.
- */
-FOUNDATION_EXPORT NSString *const kMXSessionNotificationRoomIdKey;
-
-/**
- The key in notification userInfo dictionary representating the event.
- */
-FOUNDATION_EXPORT NSString *const kMXSessionNotificationEventKey;
 
 /**
  Posted when MXSession has detected a change in the `ignoredUsers` property.
@@ -209,6 +201,29 @@ FOUNDATION_EXPORT NSString *const kMXSessionDidCorruptDataNotification;
 FOUNDATION_EXPORT NSString *const kMXSessionCryptoDidCorruptDataNotification;
 
 
+#pragma mark - Notifications keys
+/**
+ The key in notification userInfo dictionary representating the roomId.
+ */
+FOUNDATION_EXPORT NSString *const kMXSessionNotificationRoomIdKey;
+
+/**
+ The key in notification userInfo dictionary representating the event.
+ */
+FOUNDATION_EXPORT NSString *const kMXSessionNotificationEventKey;
+
+/**
+ The key in notification userInfo dictionary representating the matrix homeserver
+ response (MXSyncResponse instance) to /sync.
+ */
+FOUNDATION_EXPORT NSString *const kMXSessionNotificationSyncResponseKey;
+
+/**
+ The key in notification userInfo dictionary representating the error.
+ */
+FOUNDATION_EXPORT NSString *const kMXSessionNotificationErrorKey;
+
+
 #pragma mark - Other constants
 /**
  Fake tag used to identify rooms that do not have tags in `roomsWithTag` and `roomsByTags` methods.
@@ -238,6 +253,11 @@ FOUNDATION_EXPORT NSString *const kMXSessionNoRoomTag;
  The current state of the session.
  */
 @property (nonatomic, readonly) MXSessionState state;
+
+/**
+ The flag indicating whether the initial sync has been done.
+ */
+@property (nonatomic, readonly) BOOL isEventStreamInitialised;
 
 /**
  The flag indicating that we are trying to establish the event streams (/sync)
@@ -307,7 +327,7 @@ FOUNDATION_EXPORT NSString *const kMXSessionNoRoomTag;
  @param failure A block object called when the operation fails. In case of failure during the
  initial sync the session state is MXSessionStateInitialSyncFailed.
  */
-- (void)start:(void (^)())onServerSyncDone
+- (void)start:(void (^)(void))onServerSyncDone
       failure:(void (^)(NSError *error))failure NS_REFINED_FOR_SWIFT;
 
 /**
@@ -321,12 +341,15 @@ FOUNDATION_EXPORT NSString *const kMXSessionNoRoomTag;
  @param failure A block object called when the operation fails.
  */
 - (void)startWithMessagesLimit:(NSUInteger)messagesLimit
-              onServerSyncDone:(void (^)())onServerSyncDone
+              onServerSyncDone:(void (^)(void))onServerSyncDone
                        failure:(void (^)(NSError *error))failure NS_REFINED_FOR_SWIFT;
 
 /**
  Pause the session events stream.
- Caution: this action is ignored if the session state is not MXSessionStateRunning.
+ This action may be delayed by using `retainPreventPause`.
+ 
+ Caution: this action is ignored if the session state is not MXSessionStateRunning
+ or MXSessionStateBackgroundSyncInProgress.
  
  No more live events will be received by the listeners.
  */
@@ -341,7 +364,7 @@ FOUNDATION_EXPORT NSString *const kMXSessionNoRoomTag;
                    CAUTION The session state is updated (to MXSessionStateRunning) after
                    calling this block. It SHOULD not be modified by this block.
  */
-- (void)resume:(void (^)())resumeDone;
+- (void)resume:(void (^)(void))resumeDone;
 
 typedef void (^MXOnBackgroundSyncDone)();
 typedef void (^MXOnBackgroundSyncFail)(NSError *error);
@@ -379,7 +402,7 @@ typedef void (^MXOnBackgroundSyncFail)(NSError *error);
  
  @return a MXHTTPOperation instance.
  */
-- (MXHTTPOperation*)logout:(void (^)())success
+- (MXHTTPOperation*)logout:(void (^)(void))success
                    failure:(void (^)(NSError *error))failure NS_REFINED_FOR_SWIFT;
 
 
@@ -427,7 +450,7 @@ typedef void (^MXOnBackgroundSyncFail)(NSError *error);
  the home server.
  @param failure A block object called when the operation fails.
  */
-- (void)setStore:(id<MXStore>)store success:(void (^)())onStoreDataReady
+- (void)setStore:(id<MXStore>)store success:(void (^)(void))onStoreDataReady
          failure:(void (^)(NSError *error))failure NS_REFINED_FOR_SWIFT;
 
 /**
@@ -460,7 +483,7 @@ typedef void (^MXOnBackgroundSyncFail)(NSError *error);
  @param success A block object called when the operation succeeds.
  @param failure A block object called when the operation fails.
  */
-- (void)enableCrypto:(BOOL)enableCrypto success:(void (^)())success failure:(void (^)(NSError *error))failure NS_REFINED_FOR_SWIFT;
+- (void)enableCrypto:(BOOL)enableCrypto success:(void (^)(void))success failure:(void (^)(NSError *error))failure NS_REFINED_FOR_SWIFT;
 
 
 #pragma mark - Rooms operations
@@ -574,7 +597,7 @@ typedef void (^MXOnBackgroundSyncFail)(NSError *error);
  @return a MXHTTPOperation instance.
  */
 - (MXHTTPOperation*)leaveRoom:(NSString*)roomId
-                      success:(void (^)())success
+                      success:(void (^)(void))success
                       failure:(void (^)(NSError *error))failure NS_REFINED_FOR_SWIFT;
 
 
@@ -629,7 +652,7 @@ typedef void (^MXOnBackgroundSyncFail)(NSError *error);
  
  @return a MXHTTPOperation instance.
  */
-- (MXHTTPOperation*)uploadDirectRooms:(void (^)())success
+- (MXHTTPOperation*)uploadDirectRooms:(void (^)(void))success
                               failure:(void (^)(NSError *error))failure NS_REFINED_FOR_SWIFT;
 
 
@@ -769,7 +792,7 @@ typedef void (^MXOnBackgroundSyncFail)(NSError *error);
  @return a MXHTTPOperation instance.
  */
 - (MXHTTPOperation*)ignoreUsers:(NSArray<NSString*>*)userIds
-                        success:(void (^)())success
+                        success:(void (^)(void))success
                         failure:(void (^)(NSError *error))failure NS_REFINED_FOR_SWIFT;
 
 /**
@@ -782,7 +805,7 @@ typedef void (^MXOnBackgroundSyncFail)(NSError *error);
  @return a MXHTTPOperation instance.
  */
 - (MXHTTPOperation*)unIgnoreUsers:(NSArray<NSString*>*)userIds
-                        success:(void (^)())success
+                        success:(void (^)(void))success
                         failure:(void (^)(NSError *error))failure NS_REFINED_FOR_SWIFT;
 
 

@@ -23,7 +23,7 @@
 #import "MXFileStoreMetaData.h"
 #import "MXSDKOptions.h"
 
-static NSUInteger const kMXFileVersion = 47;
+static NSUInteger const kMXFileVersion = 49;
 
 static NSString *const kMXFileStoreFolder = @"MXFileStore";
 static NSString *const kMXFileStoreMedaDataFile = @"MXFileStore";
@@ -131,7 +131,7 @@ static NSString *const kMXFileStoreRoomReadReceiptsFile = @"readReceipts";
     return self;
 }
 
-- (void)openWithCredentials:(MXCredentials*)someCredentials onComplete:(void (^)())onComplete failure:(void (^)(NSError *))failure
+- (void)openWithCredentials:(MXCredentials*)someCredentials onComplete:(void (^)(void))onComplete failure:(void (^)(NSError *))failure
 {
     credentials = someCredentials;
     
@@ -292,6 +292,7 @@ static NSString *const kMXFileStoreRoomReadReceiptsFile = @"readReceipts";
     // Remove this room identifier from the other arrays.
     [roomsToCommitForMessages removeObject:roomId];
     [roomsToCommitForState removeObjectForKey:roomId];
+    [roomsToCommitForSummary removeObjectForKey:roomId];
     [roomsToCommitForAccountData removeObjectForKey:roomId];
     [roomsToCommitForReceipts removeObject:roomId];
 }
@@ -1115,6 +1116,7 @@ static NSString *const kMXFileStoreRoomReadReceiptsFile = @"readReceipts";
     }
     else
     {
+        NSLog(@"[MXFileStore] event stream token is missing");
         [self deleteAllData];
     }
 }

@@ -60,7 +60,7 @@ NSMutableArray *roomsToClean;
     return self;
 }
 
-- (void)getBobCredentials:(void (^)())success
+- (void)getBobCredentials:(void (^)(void))success
 {
     if (self.bobCredentials)
     {
@@ -300,7 +300,7 @@ NSMutableArray *roomsToClean;
 }
 
 
-- (void)for:(MXRestClient *)mxRestClient2 andRoom:(NSString*)roomId sendMessages:(NSUInteger)messagesCount success:(void (^)())success
+- (void)for:(MXRestClient *)mxRestClient2 andRoom:(NSString*)roomId sendMessages:(NSUInteger)messagesCount success:(void (^)(void))success
 {
     NSLog(@"sendMessages :%tu to %@", messagesCount, roomId);
     if (0 == messagesCount)
@@ -322,7 +322,7 @@ NSMutableArray *roomsToClean;
     }
 }
 
-- (void)for:(MXRestClient *)mxRestClient2 createRooms:(NSUInteger)roomsCount withMessages:(NSUInteger)messagesCount success:(void (^)())success
+- (void)for:(MXRestClient *)mxRestClient2 createRooms:(NSUInteger)roomsCount withMessages:(NSUInteger)messagesCount success:(void (^)(void))success
 {
     if (0 == roomsCount)
     {
@@ -452,7 +452,7 @@ NSMutableArray *roomsToClean;
 
 
 #pragma mark - mxAlice
-- (void)getAliceCredentials:(void (^)())success
+- (void)getAliceCredentials:(void (^)(void))success
 {
     if (self.aliceCredentials)
     {
@@ -625,14 +625,14 @@ NSMutableArray *roomsToClean;
 
 
 #pragma mark - HTTPS mxBob
-- (void)getHttpsBobCredentials:(void (^)())success
+- (void)getHttpsBobCredentials:(void (^)(void))success
 {
     [self getHttpsBobCredentials:success onUnrecognizedCertificateBlock:^BOOL(NSData *certificate) {
         return YES;
     }];
 }
 
-- (void)getHttpsBobCredentials:(void (^)())success onUnrecognizedCertificateBlock:(MXHTTPClientOnUnrecognizedCertificate)onUnrecognizedCertBlock
+- (void)getHttpsBobCredentials:(void (^)(void))success onUnrecognizedCertificateBlock:(MXHTTPClientOnUnrecognizedCertificate)onUnrecognizedCertBlock
 {
     if (self.bobCredentials)
     {
@@ -752,6 +752,39 @@ NSMutableArray *roomsToClean;
     }];
 }
 
+- (void)relogUserSessionWithNewDevice:(MXSession*)session withPassword:(NSString*)password onComplete:(void (^)(MXSession *newSession))onComplete
+{
+    NSString *userId = session.matrixRestClient.credentials.userId;
+
+    [session enableCrypto:NO success:^{
+
+        [session close];
+
+        MXRestClient *mxRestClient = [[MXRestClient alloc] initWithHomeServer:kMXTestsHomeServerURL
+                                            andOnUnrecognizedCertificateBlock:nil];
+
+        [mxRestClient loginWithLoginType:kMXLoginFlowTypePassword username:userId password:password success:^(MXCredentials *credentials) {
+
+            MXRestClient *mxRestClient2 = [[MXRestClient alloc] initWithCredentials:credentials andOnUnrecognizedCertificateBlock:nil];
+            MXSession *newSession = [[MXSession alloc] initWithMatrixRestClient:mxRestClient2];
+
+            [newSession start:^{
+
+                onComplete(newSession);
+
+            } failure:^(NSError *error) {
+                NSAssert(NO, @"Cannot set up intial test conditions - error: %@", error);
+            }];
+
+        } failure:^(NSError *error) {
+            NSAssert(NO, @"Cannot relog %@. Error: %@", userId, error);
+        }];
+    } failure:^(NSError *error) {
+        NSAssert(NO, @"Cannot logout %@. Error: %@", userId, error);
+    }];
+}
+
+
 
 - (void)closeMXSession:(MXSession*)mxSession
 {
@@ -782,7 +815,7 @@ NSMutableArray *roomsToClean;
     [mxSession close];
 }
 
-- (void)leaveAllRoomsAsync:(NSMutableArray*)rooms onComplete:(void (^)())onComplete
+- (void)leaveAllRoomsAsync:(NSMutableArray*)rooms onComplete:(void (^)(void))onComplete
 {
     if (rooms.count)
     {

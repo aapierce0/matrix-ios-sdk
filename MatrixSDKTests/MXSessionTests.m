@@ -578,6 +578,32 @@
     }];
 }
 
+- (void)testDidSyncNotification
+{
+    [matrixSDKTestsData doMXSessionTestWithBobAndARoom:self andStore:[[MXMemoryStore alloc] init] readyToTest:^(MXSession *mxSession2, MXRoom *room, XCTestExpectation *expectation) {
+
+        mxSession = mxSession2;
+
+        id observer;
+        observer = [[NSNotificationCenter defaultCenter] addObserverForName:kMXSessionDidSyncNotification object:mxSession queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notif) {
+
+            MXSyncResponse *syncResponse = (MXSyncResponse*)notif.userInfo[kMXSessionNotificationSyncResponseKey];
+
+            XCTAssert([syncResponse isKindOfClass:MXSyncResponse.class]);
+            XCTAssert(syncResponse.rooms.join[room.roomId], @"We should receive back the 'Hello' sent in this room");
+
+            [[NSNotificationCenter defaultCenter] removeObserver:observer];
+            [expectation fulfill];
+        }];
+
+        [room sendTextMessage:@"Hello" success:nil failure:^(NSError *error) {
+            XCTFail(@"The request should not fail - NSError: %@", error);
+            [expectation fulfill];
+        }];
+
+    }];
+}
+
 - (void)testCreateRoomWithInvite
 {
     [matrixSDKTestsData doMXSessionTestWithBob:self readyToTest:^(MXSession *mxSession2, XCTestExpectation *expectation) {
@@ -1231,7 +1257,7 @@
             XCTAssert(toDeviceEvent);
 
             XCTAssertEqualObjects(toDeviceEvent.sender, aliceRestClient.credentials.userId);
-            XCTAssertEqual(toDeviceEvent.eventType, MXEventTypeNewDevice);
+            XCTAssertEqual(toDeviceEvent.eventType, MXEventTypeRoomKeyRequest);
 
             [[NSNotificationCenter defaultCenter] removeObserver:observer];
 
@@ -1246,7 +1272,7 @@
                                          }
                                  } forUser:mxSession.myUser.userId];
 
-        [aliceRestClient sendToDevice:kMXEventTypeStringNewDevice contentMap:contentMap success:^{
+        [aliceRestClient sendToDevice:kMXEventTypeStringRoomKeyRequest contentMap:contentMap txnId:nil success:^{
 
         } failure:^(NSError *error) {
             XCTFail(@"Cannot set up intial test conditions - error: %@", error);

@@ -1,5 +1,5 @@
 /*
- Copyright 2015 OpenMarket Ltd
+ Copyright 2017 OpenMarket Ltd
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -14,14 +14,8 @@
  limitations under the License.
  */
 
-#import "MXCoreDataAccount.h"
+#import "MXOutgoingRoomKeyRequest.h"
 
-#ifdef MXCOREDATA_STORE
-
-@implementation MXCoreDataAccount
-
-// Insert code here to add functionality to your managed object subclass
+@implementation MXOutgoingRoomKeyRequest
 
 @end
-
-#endif // MXCOREDATA_STORE

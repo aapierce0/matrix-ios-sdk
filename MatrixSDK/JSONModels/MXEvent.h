@@ -16,6 +16,8 @@
 
 #import "MXJSONModel.h"
 
+@class MXEventDecryptionResult;
+
 /**
  Types of Matrix events
  
@@ -43,6 +45,8 @@ typedef enum : NSUInteger
     MXEventTypeRoomGuestAccess,
     MXEventTypeRoomHistoryVisibility,
     MXEventTypeRoomKey,
+    MXEventTypeRoomForwardedKey,
+    MXEventTypeRoomKeyRequest,
     MXEventTypeRoomMessage,
     MXEventTypeRoomMessageFeedback,
     MXEventTypeRoomPlumbing,
@@ -54,7 +58,6 @@ typedef enum : NSUInteger
     MXEventTypeReceipt,
     MXEventTypeRead,
     MXEventTypeReadMarker,
-    MXEventTypeNewDevice,
     MXEventTypeCallInvite,
     MXEventTypeCallCandidates,
     MXEventTypeCallAnswer,
@@ -84,6 +87,8 @@ FOUNDATION_EXPORT NSString *const kMXEventTypeStringRoomEncryption;
 FOUNDATION_EXPORT NSString *const kMXEventTypeStringRoomGuestAccess;
 FOUNDATION_EXPORT NSString *const kMXEventTypeStringRoomHistoryVisibility;
 FOUNDATION_EXPORT NSString *const kMXEventTypeStringRoomKey;
+FOUNDATION_EXPORT NSString *const kMXEventTypeStringRoomForwardedKey;
+FOUNDATION_EXPORT NSString *const kMXEventTypeStringRoomKeyRequest;
 FOUNDATION_EXPORT NSString *const kMXEventTypeStringRoomMessage;
 FOUNDATION_EXPORT NSString *const kMXEventTypeStringRoomMessageFeedback;
 FOUNDATION_EXPORT NSString *const kMXEventTypeStringRoomPlumbing;
@@ -95,7 +100,6 @@ FOUNDATION_EXPORT NSString *const kMXEventTypeStringTypingNotification;
 FOUNDATION_EXPORT NSString *const kMXEventTypeStringReceipt;
 FOUNDATION_EXPORT NSString *const kMXEventTypeStringRead;
 FOUNDATION_EXPORT NSString *const kMXEventTypeStringReadMarker;
-FOUNDATION_EXPORT NSString *const kMXEventTypeStringNewDevice;
 FOUNDATION_EXPORT NSString *const kMXEventTypeStringCallInvite;
 FOUNDATION_EXPORT NSString *const kMXEventTypeStringCallCandidates;
 FOUNDATION_EXPORT NSString *const kMXEventTypeStringCallAnswer;
@@ -425,11 +429,9 @@ extern NSString *const kMXEventIdentifierKey;
  This is used after decrypting an event; it should not be used by applications.
  It fires kMXEventDidDecryptNotification.
 
- @param clearEvent the plaintext payload for the event.
- @param keysProved the keys owned by the sender of this event.
- @param keysClaimed the keys the sender of this event claims.
+ @param decryptionResult the decryption result, including the plaintext and some key info.
  */
-- (void)setClearData:(MXEvent*)clearEvent keysProved:(NSDictionary<NSString*, NSString*> *)keysProved keysClaimed:(NSDictionary<NSString*, NSString*> *)keysClaimed;
+- (void)setClearData:(MXEventDecryptionResult *)decryptionResult;
 
 /**
  For encrypted events, the plaintext payload for the event.
@@ -438,30 +440,56 @@ extern NSString *const kMXEventIdentifierKey;
 @property (nonatomic, readonly) MXEvent *clearEvent;
 
 /**
- The keys that must have been owned by the sender of this encrypted event.
+ The curve25519 key for the device that we think sent this event.
 
- @discussion
- These don't necessarily have to come from this event itself, but may be
- implied by the cryptographic session.
+ For an Olm-encrypted event, this is inferred directly from the DH
+ exchange at the start of the session: the curve25519 key is involved in
+ the DH exchange, so only a device which holds the private part of that
+ key can establish such a session.
+
+ For a megolm-encrypted event, it is inferred from the Olm message which
+ established the megolm session
  */
-@property (nonatomic) NSDictionary<NSString*, NSString*> *keysProved;
+@property (nonatomic, readonly) NSString *senderKey;
 
 /**
  The additional keys the sender of this encrypted event claims to possess.
- 
- @discussion
- These don't necessarily have to come from this event itself, but may be
- implied by the cryptographic session.
- For example megolm messages don't claim keys directly, but instead
- inherit a claim from the olm message that established the session.
- The keys that must have been owned by the sender of this encrypted event.
+ Just a wrapper for `claimedEd25519Key` (q.v.)
  */
-@property (nonatomic) NSDictionary<NSString*, NSString*> *keysClaimed;
+@property (nonatomic, readonly) NSDictionary *keysClaimed;
 
 /**
- The curve25519 key that sent this event.
+ Get the ed25519 the sender of this event claims to own.
+
+ For Olm messages, this claim is encoded directly in the plaintext of the
+ event itself. For megolm messages, it is implied by the m.room_key event
+ which established the megolm session.
+
+ Until we download the device list of the sender, it's just a claim: the
+ device list gives a proof that the owner of the curve25519 key used for
+ this event (and returned by `senderKey`) also owns the ed25519 key by
+ signing the public curve25519 key with the ed25519 key.
+
+ In general, applications should not use this method directly, but should
+ instead use [MXCrypto eventDeviceInfo:].
  */
-@property (nonatomic, readonly) NSString *senderKey;
+@property (nonatomic, readonly) NSString *claimedEd25519Key;
+
+/**
+ Get the curve25519 keys of the devices which were involved in telling us
+ about the claimedEd25519Key and sender curve25519 key.
+
+ Normally this will be empty, but in the case of a forwarded megolm
+ session, the sender keys are sent to us by another device (the forwarding
+ device), which we need to trust to do this. In that case, the result will
+ be a list consisting of one entry.
+
+ If the device that sent us the key (A) got it from another device which
+ it wasn't prepared to vouch for (B), the result will be [A, B]. And so on.
+
+ @return base64-encoded curve25519 keys, from oldest to newest.
+ */
+@property (nonatomic, readonly) NSArray<NSString *> *forwardingCurve25519KeyChain;
 
 /**
  If any, the error that occured during decryption.

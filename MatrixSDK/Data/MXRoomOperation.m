@@ -1,5 +1,5 @@
 /*
- Copyright 2015 OpenMarket Ltd
+ Copyright 2017 Vector Creations Ltd
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -14,23 +14,25 @@
  limitations under the License.
  */
 
-#import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
+#import "MXRoomOperation.h"
 
-#ifdef MXCOREDATA_STORE
-
-@class MXCoreDataRoom;
-
-NS_ASSUME_NONNULL_BEGIN
-
-@interface MXCoreDataRoomState : NSManagedObject
-
-// Insert code here to declare functionality of your managed object subclass
-
+@interface MXRoomOperation ()
+{
+    BOOL canceled;
+}
 @end
 
-NS_ASSUME_NONNULL_END
+@implementation MXRoomOperation
 
-#import "MXCoreDataRoomState+CoreDataProperties.h"
+- (BOOL)isCancelled
+{
+    return canceled || _operation.isCancelled;
+}
 
-#endif // MXCOREDATA_STORE
+- (void)cancel
+{
+    [_operation cancel];
+    canceled = YES;
+}
+
+@end

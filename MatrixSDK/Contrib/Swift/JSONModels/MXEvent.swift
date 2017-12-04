@@ -42,6 +42,8 @@ public enum MXEventType : Equatable, Hashable {
     case roomGuestAccess
     case roomHistoryVisibility
     case roomKey
+    case roomForwardedKey
+    case roomKeyRequest
     case roomMessage
     case roomMessageFeedback
     case roomRedaction
@@ -49,7 +51,6 @@ public enum MXEventType : Equatable, Hashable {
     case roomTag
     case presence
     case typing
-    case newDevice
     case callInvite
     case callCandidates
     case callAnswer
@@ -75,13 +76,14 @@ public enum MXEventType : Equatable, Hashable {
         case .roomGuestAccess: return kMXEventTypeStringRoomGuestAccess
         case .roomHistoryVisibility: return kMXEventTypeStringRoomHistoryVisibility
         case .roomKey: return kMXEventTypeStringRoomKey
+        case .roomForwardedKey: return kMXEventTypeStringRoomForwardedKey
+        case .roomKeyRequest: return kMXEventTypeStringRoomKeyRequest
         case .roomMessage: return kMXEventTypeStringRoomMessage
         case .roomMessageFeedback: return kMXEventTypeStringRoomMessageFeedback
         case .roomRedaction: return kMXEventTypeStringRoomRedaction
         case .roomThirdPartyInvite: return kMXEventTypeStringRoomThirdPartyInvite
         case .roomTag: return kMXEventTypeStringRoomTag
         case .presence: return kMXEventTypeStringPresence
-        case .newDevice: return kMXEventTypeStringNewDevice
         case .callInvite: return kMXEventTypeStringCallInvite
         case .callCandidates: return kMXEventTypeStringCallCandidates
         case .callAnswer: return kMXEventTypeStringCallAnswer

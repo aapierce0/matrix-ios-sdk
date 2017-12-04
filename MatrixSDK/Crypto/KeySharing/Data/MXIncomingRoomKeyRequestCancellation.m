@@ -1,5 +1,5 @@
 /*
- Copyright 2015 OpenMarket Ltd
+ Copyright 2017 OpenMarket Ltd
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -13,27 +13,22 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
+#import "MXIncomingRoomKeyRequestCancellation.h"
 
-#import "MXCoreDataEvent+CoreDataProperties.h"
+@implementation MXIncomingRoomKeyRequestCancellation
 
-#ifdef MXCOREDATA_STORE
+- (instancetype)initWithMXEvent:(MXEvent *)event
+{
+    self = [super init];
+    if (self)
+    {
+        NSDictionary *content = event.content;
 
-@implementation MXCoreDataEvent (CoreDataProperties)
-
-@dynamic ageLocalTs;
-@dynamic content;
-@dynamic eventId;
-@dynamic originServerTs;
-@dynamic prevContent;
-@dynamic redactedBecause;
-@dynamic redacts;
-@dynamic roomId;
-@dynamic sender;
-@dynamic stateKey;
-@dynamic type;
-@dynamic userId;
-@dynamic room;
+        _userId = event.sender;
+        _deviceId = content[@"requesting_device_id"];
+        _requestId = content[@"request_id"];
+    }
+    return self;
+}
 
 @end
-
-#endif // MXCOREDATA_STORE

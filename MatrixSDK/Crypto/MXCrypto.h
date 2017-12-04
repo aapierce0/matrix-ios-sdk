@@ -18,13 +18,35 @@
 #import <Foundation/Foundation.h>
 
 
-
 #import "MXDeviceInfo.h"
 #import "MXCryptoConstants.h"
+#import "MXEventDecryptionResult.h"
 
 #import "MXRestClient.h"
 
+#import "MXIncomingRoomKeyRequest.h"
+#import "MXIncomingRoomKeyRequestCancellation.h"
+
 @class MXSession;
+
+/**
+ Fires when we receive a room key request.
+
+ The passed userInfo dictionary contains:
+ - `kMXCryptoRoomKeyRequestNotificationRequestKey` the `MXIncomingRoomKeyRequest` object.
+ */
+FOUNDATION_EXPORT NSString *const kMXCryptoRoomKeyRequestNotification;
+FOUNDATION_EXPORT NSString *const kMXCryptoRoomKeyRequestNotificationRequestKey;
+
+/**
+ Fires when we receive a room key request cancellation.
+
+ The passed userInfo dictionary contains:
+ - `kMXCryptoRoomKeyRequestCancellationNotificationRequestKey` the `MXIncomingRoomKeyRequestCancellation` object.
+ */
+FOUNDATION_EXPORT NSString *const kMXCryptoRoomKeyRequestCancellationNotification;
+FOUNDATION_EXPORT NSString *const kMXCryptoRoomKeyRequestCancellationNotificationRequestKey;
+
 
 /**
  A `MXCrypto` class instance manages the end-to-end crypto for a MXSession instance.
@@ -72,20 +94,18 @@
 /**
  Start the crypto module.
  
- Device keys will be uploaded, then one time keys if there are not enough on the homeserver
- and, then, if this is the first time, this new device will be announced to all other users
- devices.
+ Device keys will be uploaded, then one time keys if there are not enough on the homeserver.
  
  @param onComplete A block object called when the operation succeeds.
  @param failure A block object called when the operation fails.
  */
-- (void)start:(void (^)())onComplete
+- (void)start:(void (^)(void))onComplete
       failure:(void (^)(NSError *error))failure;
 
 /**
  Stop and release crypto objects.
  */
-- (void)close;
+- (void)close:(BOOL)deleteStore;
 
 /**
  Encrypt an event content according to the configuration of the room.
@@ -113,9 +133,11 @@
  @param timeline the id of the timeline where the event is decrypted. It is used
                  to prevent replay attack.
  
- @return YES if the decryption was successful.
+ @param error the result error if there is a problem decrypting the event.
+
+ @return The decryption result. Nil if it failed.
  */
-- (BOOL)decryptEvent:(MXEvent*)event inTimeline:(NSString*)timeline;
+- (MXEventDecryptionResult *)decryptEvent:(MXEvent*)event inTimeline:(NSString*)timeline error:(NSError** )error;
 
 /**
  Ensure that the outbound session is ready to encrypt events.
@@ -132,19 +154,36 @@
  @return a MXHTTPOperation instance. May be nil if all required materials is already in place.
  */
 - (MXHTTPOperation*)ensureEncryptionInRoom:(NSString*)roomId
-                                   success:(void (^)())success
+                                   success:(void (^)(void))success
                                    failure:(void (^)(NSError *error))failure;
 
 /**
  Handle list of changed users provided in the /sync response.
 
  @param deviceLists the list of users who have a change in their devices.
- @param oldSyncToken  The 'since' token passed to /sync. nil for the first successful
-                      sync since this client was started.
+ */
+- (void)handleDeviceListsChanges:(MXDeviceListResponse*)deviceLists;
+
+/**
+ Handle one-time keys count returned in the /sync response.
+
+ @param deviceOneTimeKeysCount the number of one-time keys the server has for our device.
+ */
+- (void)handleDeviceOneTimeKeysCount:(NSDictionary<NSString *, NSNumber*>*)deviceOneTimeKeysCount;
+
+/**
+ Handle the completion of a /sync.
+
+ This is called after the processing of each successful /sync response.
+ It is an opportunity to do a batch process on the information received.
+
+ @param oldSyncToken The 'since' token passed to /sync. nil for the first successful
+                     sync since this client was started.
  @param nextSyncToken The 'next_batch' result from /sync, which will become the 'since'
                       token for the next call to /sync.
+ @param catchingUp YES if we are working our way through a backlog of events after connecting.
  */
-- (void)handleDeviceListsChanges:(MXDeviceListResponse*)deviceLists oldSyncToken:(NSString*)oldSyncToken nextSyncToken:(NSString*)nextSyncToken;
+- (void)onSyncCompleted:(NSString*)oldSyncToken nextSyncToken:(NSString*)nextSyncToken catchingUp:(BOOL)catchingUp;
 
 /**
  Return the device information for an encrypted event.
@@ -153,6 +192,15 @@
  @return the device if any.
  */
 - (MXDeviceInfo *)eventDeviceInfo:(MXEvent*)event;
+
+/**
+ Get the stored device keys for a user's device.
+
+ @param deviceId the id of the user's device.
+ @param userId the user id.
+ @param complete a block called with the device keys. nil if not found.
+ */
+- (void)deviceWithDeviceId:(NSString*)deviceId ofUser:(NSString*)userId complete:(void (^)(MXDeviceInfo *device))complete;
 
 /**
  Get the stored device keys for a user.
@@ -173,7 +221,7 @@
  @param failure A block object called when the operation fails.
  */
 - (void)setDeviceVerification:(MXDeviceVerification)verificationStatus forDevice:(NSString*)deviceId ofUser:(NSString*)userId
-                      success:(void (^)())success
+                      success:(void (^)(void))success
                       failure:(void (^)(NSError *error))failure;
 
 /**
@@ -184,7 +232,7 @@
  @param complete A block object called when the operation completes.
  */
 - (void)setDevicesKnown:(MXUsersDevicesMap<MXDeviceInfo*>*)devices
-               complete:(void (^)())complete;
+               complete:(void (^)(void))complete;
 
 /**
  Download the device keys for a list of users and stores them into the crypto store.
@@ -218,11 +266,11 @@
 - (void)resetDeviceKeys;
 
 /**
- Delete the crypto store for the passed credentials.
+ Delete the crypto store.
 
- @param credentials the credentials of the account.
+ @param onComplete the callback called once operation is done.
  */
-+ (void)deleteStoreWithCredentials:(MXCredentials*)credentials;
+- (void)deleteStore:(void (^)())onComplete;
 
 
 #pragma mark - import/export
@@ -256,7 +304,7 @@
  @param failure A block object called when the operation fails.
  */
 - (void)importRoomKeys:(NSArray<NSDictionary*>*)keys
-               success:(void (^)())success
+               success:(void (^)(void))success
                failure:(void (^)(NSError *error))failure;
 
 /**
@@ -268,9 +316,55 @@
  @param failure A block object called when the operation fails.
  */
 - (void)importRoomKeys:(NSData *)keyFile withPassword:(NSString*)password
-               success:(void (^)())success
+               success:(void (^)(void))success
                failure:(void (^)(NSError *error))failure;
 
+
+#pragma mark - Key sharing
+
+/**
+ Get all pending key requests sorted by userId/deviceId pairs.
+
+ @param onComplete A block object called with the list of pending key requests.
+ */
+- (void)pendingKeyRequests:(void (^)(MXUsersDevicesMap<NSArray<MXIncomingRoomKeyRequest *> *> *pendingKeyRequests))onComplete;
+
+/**
+ Send response to a key request.
+
+ @param keyRequest the accepted key request.
+ @param success A block object called when the operation succeeds.
+ @param failure A block object called when the operation fails.
+ */
+- (void)acceptKeyRequest:(MXIncomingRoomKeyRequest *)keyRequest
+                 success:(void (^)())success
+                 failure:(void (^)(NSError *error))failure;
+
+/**
+ Send responses to the key requests made by a user's device.
+
+ @param userId the id of the user.
+ @param deviceId the id of the user's device.
+ @param onComplete A block object called when the operation completes.
+ */
+- (void)acceptAllPendingKeyRequestsFromUser:(NSString*)userId andDevice:(NSString*)deviceId onComplete:(void (^)())onComplete;
+
+/**
+ Ignore a key request.
+
+ @param keyRequest the key request to ignore
+ @param onComplete A block object called when the operation completes.
+ */
+- (void)ignoreKeyRequest:(MXIncomingRoomKeyRequest *)keyRequest onComplete:(void (^)())onComplete;
+
+/**
+ Ignore all pending key requests made by a user's device.
+
+ @param userId the id of the user.
+ @param deviceId the id of the user's device.
+ @param onComplete A block object called when the operation completes.
+ */
+- (void)ignoreAllPendingKeyRequestsFromUser:(NSString*)userId andDevice:(NSString*)deviceId onComplete:(void (^)())onComplete;
 
 #pragma mark - Crypto settings
 

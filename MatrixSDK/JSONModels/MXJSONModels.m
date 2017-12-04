@@ -558,10 +558,12 @@ NSString *const kMXPushRuleActionStringDontNotify   = @"dont_notify";
 NSString *const kMXPushRuleActionStringCoalesce     = @"coalesce";
 NSString *const kMXPushRuleActionStringSetTweak     = @"set_tweak";
 
-NSString *const kMXPushRuleConditionStringEventMatch            = @"event_match";
-NSString *const kMXPushRuleConditionStringProfileTag            = @"profile_tag";
-NSString *const kMXPushRuleConditionStringContainsDisplayName   = @"contains_display_name";
-NSString *const kMXPushRuleConditionStringRoomMemberCount       = @"room_member_count";
+NSString *const kMXPushRuleConditionStringEventMatch                    = @"event_match";
+NSString *const kMXPushRuleConditionStringProfileTag                    = @"profile_tag";
+NSString *const kMXPushRuleConditionStringContainsDisplayName           = @"contains_display_name";
+NSString *const kMXPushRuleConditionStringRoomMemberCount               = @"room_member_count";
+NSString *const kMXPushRuleConditionStringSenderNotificationPermission  = @"sender_notification_permission";
+
 
 @implementation MXPushRule
 
@@ -691,6 +693,10 @@ NSString *const kMXPushRuleConditionStringRoomMemberCount       = @"room_member_
     {
         _kindType = MXPushRuleConditionTypeRoomMemberCount;
     }
+    else if ([_kind isEqualToString:kMXPushRuleConditionStringSenderNotificationPermission])
+    {
+        _kindType = MXPushRuleConditionTypeSenderNotificationPermission;
+    }
     else
     {
         _kindType = MXPushRuleConditionTypeCustom;
@@ -717,6 +723,10 @@ NSString *const kMXPushRuleConditionStringRoomMemberCount       = @"room_member_
 
         case MXPushRuleConditionTypeRoomMemberCount:
             _kind = kMXPushRuleConditionStringRoomMemberCount;
+            break;
+
+        case MXPushRuleConditionTypeSenderNotificationPermission:
+            _kind = kMXPushRuleConditionStringSenderNotificationPermission;
             break;
 
         default:
@@ -1224,6 +1234,7 @@ NSString *const kMXPushRuleScopeStringDevice = @"device";
         MXJSONModelSetMXJSONModel(syncResponse.presence, MXPresenceSyncResponse, JSONDictionary[@"presence"]);
         MXJSONModelSetMXJSONModel(syncResponse.toDevice, MXToDeviceSyncResponse, JSONDictionary[@"to_device"]);
         MXJSONModelSetMXJSONModel(syncResponse.deviceLists, MXDeviceListResponse, JSONDictionary[@"device_lists"]);
+        MXJSONModelSetDictionary(syncResponse.deviceOneTimeKeysCount, JSONDictionary[@"device_one_time_keys_count"])
         MXJSONModelSetMXJSONModel(syncResponse.rooms, MXRoomsSyncResponse, JSONDictionary[@"rooms"]);
     }
 

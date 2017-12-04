@@ -17,6 +17,7 @@
 #import "MXEvent.h"
 
 #import "MXTools.h"
+#import "MXEventDecryptionResult.h"
 
 #pragma mark - Constants definitions
 
@@ -35,6 +36,8 @@ NSString *const kMXEventTypeStringRoomEncryption        = @"m.room.encryption";
 NSString *const kMXEventTypeStringRoomGuestAccess       = @"m.room.guest_access";
 NSString *const kMXEventTypeStringRoomHistoryVisibility = @"m.room.history_visibility";
 NSString *const kMXEventTypeStringRoomKey               = @"m.room_key";
+NSString *const kMXEventTypeStringRoomForwardedKey      = @"m.forwarded_room_key";
+NSString *const kMXEventTypeStringRoomKeyRequest        = @"m.room_key_request";
 NSString *const kMXEventTypeStringRoomMessage           = @"m.room.message";
 NSString *const kMXEventTypeStringRoomMessageFeedback   = @"m.room.message.feedback";
 NSString *const kMXEventTypeStringRoomPlumbing          = @"m.room.plumbing";
@@ -46,7 +49,6 @@ NSString *const kMXEventTypeStringTypingNotification    = @"m.typing";
 NSString *const kMXEventTypeStringReceipt               = @"m.receipt";
 NSString *const kMXEventTypeStringRead                  = @"m.read";
 NSString *const kMXEventTypeStringReadMarker            = @"m.fully_read";
-NSString *const kMXEventTypeStringNewDevice             = @"m.new_device";
 NSString *const kMXEventTypeStringCallInvite            = @"m.call.invite";
 NSString *const kMXEventTypeStringCallCandidates        = @"m.call.candidates";
 NSString *const kMXEventTypeStringCallAnswer            = @"m.call.answer";
@@ -79,7 +81,27 @@ NSString *const kMXEventIdentifierKey = @"kMXEventIdentifierKey";
 
 #pragma mark - MXEvent
 @interface MXEvent ()
+{
+    /**
+     Curve25519 key which we believe belongs to the sender of the event.
+     See `senderKey` property.
+     */
+    NSString *senderCurve25519Key;
 
+    /**
+     Ed25519 key which the sender of this event (for olm) or the creator of the
+     megolm session (for megolm) claims to own.
+     See `claimedEd25519Key` property.
+     */
+    NSString *claimedEd25519Key;
+
+    /**
+     Curve25519 keys of devices involved in telling us about the senderCurve25519Key
+     and claimedEd25519Key.
+     See `forwardingCurve25519KeyChain` property.
+     */
+    NSArray<NSString *> *forwardingCurve25519KeyChain;
+}
 @end
 
 @implementation MXEvent
@@ -502,11 +524,20 @@ NSString *const kMXEventIdentifierKey = @"kMXEventIdentifierKey";
     return (self.wireEventType == MXEventTypeRoomEncrypted);
 }
 
-- (void)setClearData:(MXEvent *)clearEvent keysProved:(NSDictionary<NSString *,NSString *> *)keysProved keysClaimed:(NSDictionary<NSString *,NSString *> *)keysClaimed
+- (void)setClearData:(MXEventDecryptionResult *)decryptionResult
 {
-    _clearEvent = clearEvent;
-    _clearEvent.keysProved = keysProved;
-    _clearEvent.keysClaimed = keysClaimed;
+    _clearEvent = nil;
+    if (decryptionResult.clearEvent)
+    {
+        _clearEvent = [MXEvent modelFromJSON:decryptionResult.clearEvent];
+    }
+
+    if (_clearEvent)
+    {
+        _clearEvent->senderCurve25519Key = decryptionResult.senderCurve25519Key;
+        _clearEvent->claimedEd25519Key = decryptionResult.claimedEd25519Key;
+        _clearEvent->forwardingCurve25519KeyChain = decryptionResult.forwardingCurve25519KeyChain ? decryptionResult.forwardingCurve25519KeyChain : @[];
+    }
 
     // Notify only for events that are lately decrypted
     BOOL notify = (_decryptionError != nil);
@@ -522,32 +553,53 @@ NSString *const kMXEventIdentifierKey = @"kMXEventIdentifierKey";
 
 - (NSString *)senderKey
 {
-    return self.keysProved[@"curve25519"];
-}
-
-- (NSDictionary<NSString *,NSString *> *)keysProved
-{
     if (_clearEvent)
     {
-        return _clearEvent.keysProved;
+        return _clearEvent->senderCurve25519Key;
     }
     else
     {
-        return _keysProved;
+        return senderCurve25519Key;
     }
 }
 
-- (NSDictionary<NSString *,NSString *> *)keysClaimed
+- (NSDictionary *)keysClaimed
+{
+    NSDictionary *keysClaimed;
+    NSString *selfClaimedEd25519Key = self.claimedEd25519Key;
+    if (selfClaimedEd25519Key)
+    {
+        keysClaimed =  @{
+                         @"ed25519": selfClaimedEd25519Key
+                         };
+    }
+    return keysClaimed;
+}
+
+- (NSString *)claimedEd25519Key
 {
     if (_clearEvent)
     {
-        return _clearEvent.keysClaimed;
+        return _clearEvent->claimedEd25519Key;
     }
     else
     {
-        return _keysClaimed;
+        return claimedEd25519Key;
     }
 }
+
+- (NSArray<NSString *> *)forwardingCurve25519KeyChain
+{
+    if (_clearEvent)
+    {
+        return _clearEvent->forwardingCurve25519KeyChain;
+    }
+    else
+    {
+        return forwardingCurve25519KeyChain;
+    }
+}
+
 
 
 #pragma mark - private

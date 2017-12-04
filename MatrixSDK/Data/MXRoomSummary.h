@@ -122,7 +122,7 @@ FOUNDATION_EXPORT NSString *const kMXRoomSummaryDidChangeNotification;
 #pragma mark - Data related to room state
 
 /**
- The avatar url of the room.
+ The Matrix content URI of the room avatar.
  */
 @property (nonatomic) NSString *avatar;
 
@@ -194,7 +194,7 @@ FOUNDATION_EXPORT NSString *const kMXRoomSummaryDidChangeNotification;
 
  @return a MXHTTPOperation instance.
  */
-- (MXHTTPOperation*)resetLastMessage:(void (^)())complete failure:(void (^)(NSError *))failure commit:(BOOL)commit;
+- (MXHTTPOperation*)resetLastMessage:(void (^)(void))complete failure:(void (^)(NSError *))failure commit:(BOOL)commit;
 
 
 #pragma mark - Data related to business logic

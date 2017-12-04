@@ -724,6 +724,7 @@ typedef enum : NSUInteger
     MXPushRuleConditionTypeProfileTag,
     MXPushRuleConditionTypeContainsDisplayName,
     MXPushRuleConditionTypeRoomMemberCount,
+    MXPushRuleConditionTypeSenderNotificationPermission,
 
     // The condition is a custom condition. Refer to its `MXPushRuleConditionString` version
     MXPushRuleConditionTypeCustom = 1000
@@ -737,6 +738,7 @@ FOUNDATION_EXPORT NSString *const kMXPushRuleConditionStringEventMatch;
 FOUNDATION_EXPORT NSString *const kMXPushRuleConditionStringProfileTag;
 FOUNDATION_EXPORT NSString *const kMXPushRuleConditionStringContainsDisplayName;
 FOUNDATION_EXPORT NSString *const kMXPushRuleConditionStringRoomMemberCount;
+FOUNDATION_EXPORT NSString *const kMXPushRuleConditionStringSenderNotificationPermission;
 
 /**
  `MXPushRuleCondition` represents an additional condition into a rule.
@@ -1350,6 +1352,12 @@ FOUNDATION_EXPORT NSString *const kMXPushRuleScopeStringDevice;
      Devices list update.
      */
     @property (nonatomic) MXDeviceListResponse *deviceLists;
+
+    /**
+     The number of one time keys the server has for our device.
+     algorithm -> number of keys for that algorithm.
+     */
+    @property (nonatomic) NSDictionary<NSString *, NSNumber*> *deviceOneTimeKeysCount;
 
     /**
      List of rooms.
